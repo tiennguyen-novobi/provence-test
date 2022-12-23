@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ecommerce_channel_form_settings_inherit" model="ir.ui.view">
+            <field name="name">ecommerce.channel.form.inherit</field>
+            <field name="model">ecommerce.channel</field>
+            <field name="inherit_id" ref="omni_manage_channel.view_ecommerce_channel_form_settings"/>
+            <field name="arch" type="xml">
+                <group name="common_information" position="inside">
+                    <field name="amazon_merchant_token" string="Merchant Token"
+                    attrs="{'invisible':[('platform','!=','amazon')],
+                    'readonly':[('write_date', '!=', False)],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="amazon_marketplace_id"
+                           attrs="{'invisible':[('platform','!=','amazon')],
+                                    'readonly':[('write_date', '!=', False)],
+                                    'required': [('platform','=','amazon')]}"
+                           options="{'no_create_edit': True, 'no_create': True, 'no_open': True}"/>
+                    <field name="app_client_id" string="Client ID" 
+                    attrs="{'invisible':['|',('write_date', '!=', False),('platform','!=','amazon')],
+                    'readonly':[('write_date', '!=', False)],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="app_client_secret" string="Client Secret" 
+                    password="1"
+                    attrs="{'invisible':['|',('write_date', '!=', False),('platform','!=','amazon')],
+                    'readonly':[('write_date', '!=', False)],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="sp_access_key" string="Access Key" 
+                    attrs="{'invisible':['|',('write_date', '!=', False),('platform','!=','amazon')],
+                    'readonly':[('write_date', '!=', False)],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="sp_secret_access_key" string="Secret Access Key" 
+                    password="1"
+                    attrs="{'invisible':['|',('write_date', '!=', False),('platform','!=','amazon')],
+                    'readonly':[('write_date', '!=', False)],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="sp_refresh_token" string="Refresh Token"
+                    password="1" 
+                    attrs="{'invisible':['|',('write_date', '!=', False),('platform','!=','amazon')],
+                    'readonly':[('write_date', '!=', False)],
+                    'required': [('platform','=','amazon')]}"/>
+
+                    <field name="app_client_id" string="Client ID" 
+                    groups="base.group_no_one"
+                    attrs="{'invisible':['|',('write_date', '=', False),('platform','!=','amazon')],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="app_client_secret" string="Client Secret" 
+                    password="1"
+                    groups="base.group_no_one"
+                    attrs="{'invisible':['|',('write_date', '=', False),('platform','!=','amazon')],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="sp_access_key" string="Access Key" 
+                    groups="base.group_no_one"
+                    attrs="{'invisible':['|',('write_date', '=', False),('platform','!=','amazon')],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="sp_secret_access_key" string="Secret Access Key" 
+                    password="1"
+                    groups="base.group_no_one"
+                    attrs="{'invisible':['|',('write_date', '=', False),('platform','!=','amazon')],
+                    'required': [('platform','=','amazon')]}"/>
+                    <field name="sp_refresh_token" string="Refresh Token"
+                    password="1" 
+                    groups="base.group_no_one"
+                    attrs="{'invisible':['|',('write_date', '=', False),('platform','!=','amazon')],
+                    'required': [('platform','=','amazon')]}"/>
+                </group> 
+            </field>
+        </record>
+
+        <record id="view_ecommerce_channel_form_settings_order_configuration" model="ir.ui.view">
+            <field name="name">ecommerce.channel.settings.form.order.configuration</field>
+            <field name="model">ecommerce.channel</field>
+            <field name="inherit_id" ref="multichannel_order.view_ecommerce_channel_form_settings"/>
+            <field name="arch" type="xml">
+                <field name="default_warehouse_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')]}</attribute>
+                </field>
+                <field name="default_warehouse_id" position="after">
+                    <field name="default_warehouse_id" string="FBM Warehouse" 
+                    attrs="{'invisible':[('platform','!=','amazon')]}"/>
+                    <field name="fba_warehouse_id" string="FBA Warehouse" 
+                    attrs="{'invisible':[('platform','!=','amazon')]}"/>
+                </field>
+                <field name="default_discount_product_id" position="after">
+                    <field name="default_fee_product_id" 
+                    attrs="{'invisible':[('platform','!=','amazon')],'required':[('platform','=','amazon'),('write_date','!=',False)]}"/>
+                </field>
+                <field name="default_shipping_cost_product_id" position="after">
+                    <field name="default_wrapping_cost_product_id" 
+                    attrs="{'invisible':[('platform','!=','amazon')], 'required':[('platform','=','amazon'),('write_date','!=',False)]}"/>
+                </field>
+                <xpath expr="//group[@name='order_fulfillment_settings']/group[@name='left']" position="inside">
+                    <label for="auto_export_shipment_to_store" string="Enable Export Shipment" attrs="{'invisible':[('platform','!=','amazon')]}"/>
+                    <div attrs="{'invisible':[('platform','!=','amazon')]}">
+                        <field name="auto_export_shipment_to_store"/>
+                        <p class="text-muted">
+                            Automatically update your shipping information for order in this store
+                        </p>
+                    </div>
+                </xpath>
+<!--                <xpath expr="//field[@name='default_order_tag_ids']" position="after">-->
+<!--                    <field name="amazon_order_tag_id" attrs="{'invisible':[('platform','!=','amazon')]}"/>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+
+    </data>
+</odoo>

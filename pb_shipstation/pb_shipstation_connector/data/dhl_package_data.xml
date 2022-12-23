@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="pb_shipstation_connector.dhl_package" model="stock.package.type">
+            <field name="name">Package</field>
+            <field name="package_carrier_type">dhl_express_worldwide</field>
+            <field name="shipper_package_code">package</field>
+        </record>
+        <record id="pb_shipstation_connector.dhl_express_wallet_exp_env" model="stock.package.type">
+            <field name="name">Express Envelope</field>
+            <field name="package_carrier_type">dhl_express_worldwide</field>
+            <field name="shipper_package_code">dhl_express_wallet_exp_env</field>
+        </record>
+    </data>
+</odoo>

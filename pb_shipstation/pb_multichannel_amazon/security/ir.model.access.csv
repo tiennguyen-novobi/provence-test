@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acl_suitable_service,access_suitable_service,model_suitable_service,,1,1,0,0

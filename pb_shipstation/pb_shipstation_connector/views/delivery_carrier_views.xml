@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_shipping_service_tree" model="ir.ui.view">
+        <field name="name">shipping.service.tree</field>
+        <field name="model">delivery.carrier</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <tree string="Shipping Services" create="0" edit="0" expand="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name" string="Shipping Service"/>
+                <field name="is_domestic"/>
+                <field name="is_international"/>
+                <field name="ss_account_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shipping_service_search" model="ir.ui.view">
+        <field name="name">shipping.service.search</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_search"/>
+        <field name="arch" type="xml">
+            <filter name="provider" position="after">
+                <filter name="group_shipping_account_id" string="Shipping Account" context="{'group_by': 'shipping_account_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="action_view_shipping_services" model="ir.actions.act_window">
+        <field name="name">Shipping Services</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">delivery.carrier</field>
+        <field name="view_mode">tree</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('pb_shipstation_connector.view_shipping_service_tree')}),
+        ]"/>
+        <field name="context">{
+            'search_default_group_shipping_account_id': 1,
+        }</field>
+        <field name="domain">[
+            ('delivery_type', '=', 'shipstation'),
+            ('shipstation_account_ids', '!=', False),
+        ]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Shipping services are automatically created from your ShipStation account.
+            </p>
+            <p>
+                Each carrier (e.g. UPS) can have several shipping services (e.g.
+                UPS Express, UPS Standard) with a set of pricing rules attached
+                to each method.
+            </p>
+        </field>
+    </record>
+</odoo>

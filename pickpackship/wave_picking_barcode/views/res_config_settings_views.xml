@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_add_email_template_for_send_alert" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.add.email.template.to.send.alert</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='group_stock_adv_location']/../.." position="after">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <label for="send_alert_email_template_id"/>
+                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
+                        <div class="content-group">
+                            <div class="mt16">
+                                <field name="send_alert_email_template_id" domain="[('model', '=', 'stock.location')]" options="{'no_create': True}" required="1"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

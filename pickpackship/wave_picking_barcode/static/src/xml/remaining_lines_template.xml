@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="remaining_lines_widget">
+        <div class="o_barcode_message d-flex flex-column justify-content-center align-items-center bg-800">
+            <div class="position-relative text-center mt-4 mb-1">
+                <i class="fa fa-4x mx-auto fa-bell text-white"/>
+            </div>
+            <div class="mb-3">
+                <span class="o_scan_message"><t t-esc="widget.title"/></span>
+            </div>
+        </div>
+        <div class="o_barcode_lines_header alert mb-0"></div>
+        <div class="o_barcode_lines list-group flex-grow-1 d-block bg-100 position-relative"></div>
+        <div class="o_barcode_control d-flex">
+            <button class="btn btn-secondary text-uppercase o_close"><i class="fa fa-check mr-1"/> Close</button>
+        </div>
+    </t>
+    <t t-name="remaining_lines">
+        <t t-foreach="groups" t-as="group">
+            <div class="o_barcode_location">
+                <t t-if="group.title">
+                    <div class="o_barcode_lines_header alert mb-0">
+                        <div class="d-inline-block font-weight-bold text-right">
+                            <span class="o_barcode_summary_location_src" t-esc="group.title"/>
+                        </div>
+                    </div>
+                </t>
+                <t t-call="group_content"/>
+            </div>
+        </t>
+    </t>
+    <t t-name="group_content">
+        <t t-foreach="group.lines" t-as="line">
+            <div class="o_barcode_line list-group-item d-flex flex-row flex-nowrap" style="margin-bottom: unset;">
+                <t t-call="content_line"/>
+            </div>
+        </t>
+    </t>
+    <t t-name="content_line">
+        <div class="o_barcode_line_details flex-grow-1 flex-column flex-nowrap">
+            <div class="o_barcode_line_title pb-1">
+                <i class="fa fa-fw fa-tags"/>
+                <span class="product-label"><t t-esc="line.product.name"></t></span>
+            </div>
+            <div>
+                <i class="fa fa-fw fa-cube"/>
+                <span t-attf-class="o_barcode_scanner_qty text-monospace badge #{' '}">
+                    <span class="qty-done d-inline-block text-left" t-esc="line.quantity_done"/>
+                    <span t-esc="'/ ' + line.demand_qty"/>
+                </span>
+                <span t-esc="line.uom"/>
+            </div>
+        </div>
+    </t>
+</templates>

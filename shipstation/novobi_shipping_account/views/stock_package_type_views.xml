@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="omni_stock_package_type_tree">
+        <field name="name">stock.package.type.tree</field>
+        <field name="model">stock.package.type</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery Packages" editable="bottom">
+                <field name="name"/>
+                <field name="length" />
+                <field name="width" />
+                <field name="height" />
+                <field name="is_custom" invisible="1" />
+                <field name="is_require_dimensions" invisible="1" />
+            </tree>
+        </field>
+    </record>
+</odoo>

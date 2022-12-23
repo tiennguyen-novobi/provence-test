@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_picking_batch_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.batch.inherit</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="process_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="processing_in_barcode" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_picking_batch_filter_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.batch.filter.inherit</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='done']" position="after">
+                <filter name="ready_to_scan" string="Ready to scan" domain="[('state', '=', 'in_progress'), ('processing_in_barcode', '=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_barcode_picking_batch.stock_barcode_batch_picking_action_kanban" model="ir.actions.act_window">
+        <field name="context">{
+            'search_default_ready_to_scan': 1,
+        }</field>
+    </record>
+</odoo>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="packing_slip_external_layout" inherit_id="novobi_shipping_account.report_packing_slip_document">
+        <xpath expr="//t[@t-call='novobi_shipping_account.packing_slip_external_layout']" position="attributes">
+            <attribute name="t-if">o.platform == False</attribute>
+        </xpath>
+        <xpath expr="//t[@t-call='novobi_shipping_account.packing_slip_external_layout']" position="before">
+            <t t-call="web.basic_layout">
+                <div t-if="o.platform == 'amazon'">
+                    <t t-set="partner"
+                       t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                    <t t-if="partner" name="partner_header">
+                        <div class="row">
+                            <div style="padding-right: 30px">
+                                <label style="font-size: 13px">
+                                    Ship To:
+                                </label>
+                            </div>
+                            <div t-esc="partner"
+                                 t-options='{"widget": "contact", "fields": ["address", "name", "email"], "no_marker": True}'
+                                 style="font-size: 15px; font-weight: bold"/>
+                        </div>
+                    </t>
+                    <b>
+                        ---------------------------------------------------------------------------------------
+                    </b>
+                    <h4>Order ID:
+                        <t t-esc="o.sale_id.id_on_channel"/>
+                    </h4>
+                    <p>Thank you for buying from Provence Beauty on Amazon Marketplace.</p>
+                    <div class="page">
+                        <div>
+                            <table class="table table-sm mt16"
+                                   style="border-collapse: collapse; border: 1px solid black; width: 100%">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 40%">
+                                            <b>Shipping Address:</b>
+                                        </td>
+                                        <td style="width: 25%">Order Date:</td>
+                                        <td style="width: 25%">
+                                            <t t-esc="o.sale_id.date_order.strftime('%a, %b %d, %Y')"/>
+                                        </td>
+                                        <td/>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">
+                                            <div t-esc="partner"
+                                                 t-options='{"widget": "contact", "fields": ["address", "name", "email"], "no_marker": True}'/>
+                                        </td>
+                                        <td>Shipping Service:</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Buyer Name:</td>
+                                        <td>
+                                            <t t-esc="partner.name"/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Seller Name:</td>
+                                        <td>Provence Beauty</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="table table-sm mt48"
+                                   style="border-collapse: collapse; border: 1px solid black; width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th style="border-collapse: collapse; border: 1px solid black; text-align:center">
+                                            <strong>Quantity</strong>
+                                        </th>
+                                        <th style="border-collapse: collapse; border: 1px solid black; width: 55%">
+                                            <strong>Product Details</strong>
+                                        </th>
+                                        <th style="border-collapse: collapse; border: 1px solid black; text-align:center">
+                                            <strong>Unit price</strong>
+                                        </th>
+                                        <th style="border-collapse: collapse; border: 1px solid black; text-align:center">
+                                            <strong>Order Totals</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                                    <t t-set="row_count" t-value="0"/>
+                                    <tr t-foreach="lines" t-as="move">
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: center">
+                                            <span t-field="move.product_uom_qty"/>
+                                        </td>
+                                        <td style="border-collapse: collapse; border: 1px solid black;">
+                                            <div t-field="move.product_id.display_name"/>
+                                            <b>SKU:</b>
+                                            <span t-field="move.product_id.default_code"/>
+                                            <br/>
+                                            <b>ASIN:</b>
+                                            <span t-field="move.sale_line_id.asin"/>
+                                            <br/>
+                                            <b>Order Item ID:</b>
+                                            <span t-field="move.sale_line_id.id_on_channel"/>
+                                        </td>
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: center">
+                                            $
+                                            <span t-esc="move.sale_line_id.price_unit"/>
+                                        </td>
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: center">
+                                            <b>Item subtotal</b>
+                                            $
+                                            <span t-esc="move.sale_line_id.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <t t-set="shipping_cost"
+                           t-value="o.sale_id.order_line.filtered(lambda ol: ol.product_id.id == o.channel_id.default_shipping_cost_product_id.id).price_subtotal"/>
+                        <div style="text-align:right; margin-right: 40px">
+                            <b>Shipping total
+                                $
+                                <span t-esc="shipping_cost"/>
+                            </b>
+                        </div>
+                        <div style="text-align:right; margin-right: 40px">
+                            <t t-set="tax"
+                               t-value="o.sale_id.order_line.filtered(lambda ol: ol.product_id.id == o.channel_id.default_tax_product_id.id).price_subtotal"/>
+                            <b style="margin-right: 0px">Tax
+                                $
+                                <span t-esc="tax"/>
+                            </b>
+                        </div>
+                        <div style="text-align:right; margin-right: 40px">
+                            <b style="margin-right: 0px">Grand total:
+                                $
+                                <span t-esc="o.sale_id.amount_total"/>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <p>
+                            <b>Returning your item:</b>
+                            Go to "Your Account" on Amazon.com, click "Your Orders" and then click the "seller profile"
+                            link
+                            for this order to get information about the return and refund policies that apply.
+                            <br/>
+                            Visit <a href="https://www.amazon.com/returns">https://www.amazon.com/returns</a> to print a
+                            return shipping label. Please have your order ID
+                            ready.
+                            <br/>
+                            <br/>
+                            <b>Thanks for buying on Amazon Marketplace</b>. To provide feedback for the seller please
+                            visit
+                            <a href="http://www.amazon.com/feedback">www.amazon.com/feedback</a>. To contact the seller,
+                            go
+                            to Your Orders in Your Account. Click the
+                            seller's name under the
+                            appropriate product. Then, in the "Further Information" section, click "Contact the Seller."
+                        </p>
+                    </div>
+                    <b>
+                        ---------------------------------------------------------------------------------------
+                    </b>
+                </div>
+                <div t-if="o.platform == 'shipstation'">
+                    <t t-set="partner"
+                       t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                    <t t-set="warehouse_partner"
+                       t-value="o.location_id.warehouse_id.partner_id"/>
+                    <div style="text-align: center">
+                        <h4>Packing Slip</h4>
+                    </div>
+                    <b t-esc="warehouse_partner.name"></b>
+                    <div t-esc="warehouse_partner"
+                         t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                    <br/>
+                    <table>
+                        <tr>
+                            <td style="width: 60%">
+                                <div>
+                                    <t t-if="partner" name="partner_header">
+                                        <div style="padding-right: 30px">
+                                            <label style="font-size: 13px">
+                                                <b>Ship To:</b>
+                                                <span t-esc="partner.name"></span>
+                                            </label>
+                                        </div>
+                                        <div t-esc="partner"
+                                             t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                                    </t>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <th style="border-right: 1px solid black; width: 60%; padding: 1px">Order
+                                                #
+                                            </th>
+                                            <td style="padding: 1px">
+                                                <t t-esc="o.sale_id.channel_order_ref"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th style="border-right: 1px solid black; padding: 1px">Date</th>
+                                            <td style="padding: 1px">
+                                                <t t-esc="o.sale_id.date_order.strftime('%m/%d/%Y')"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th style="border-right: 1px solid black; padding: 1px">User</th>
+                                            <td style="padding: 1px">
+                                                <t t-if="partner.email" t-esc="partner.email"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th style="border-right: 1px solid black; padding: 1px">Ship Date</th>
+                                            <td style="padding: 1px">
+                                                <t t-if="o.is_create_label"
+                                                   t-esc="env['ir.attachment'].search([('res_model', '=', o._name), ('res_id', '=', o.id), '|', ('name', 'like', '&#37;{}&#37;'.format(o.carrier_tracking_ref)), ('name', 'like', '&#37;{}&#37;'.format(str(o.shipment_id_on_shipstation)))], order='create_date DESC', limit=1).create_date.strftime('%m/%d/%Y')"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <div class="page">
+                        <div>
+                            <table class="table mt48"
+                                   style="border-collapse: collapse; border: 1px solid black; width=100%">
+                                <thead>
+                                    <tr>
+                                        <th style="border-collapse: collapse; border: 1px solid black; width: 15%; text-align:left">
+                                            <strong>Item</strong>
+                                        </th>
+                                        <th style="border-collapse: collapse; border: 1px solid black; width: 40%; text-align:left">
+                                            <strong>Description</strong>
+                                        </th>
+                                        <th style="border-collapse: collapse; border: 1px solid black; width: 10%; text-align:right">
+                                            <strong>Price</strong>
+                                        </th>
+                                        <th style="border-collapse: collapse; border: 1px solid black; width: 10%; text-align:center">
+                                            <strong>Qty</strong>
+                                        </th>
+                                        <th style="border-collapse: collapse; border: 1px solid black; text-align:right">
+                                            <strong>Ext. Price</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                                    <t t-set="subtotal" t-value="0"/>
+                                    <tr t-foreach="lines" t-as="move">
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: left">
+                                            <span t-field="move.product_id.default_code"/>
+                                        </td>
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: left">
+                                            <span t-field="move.product_id.name"/>
+                                        </td>
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: right">
+                                            $
+                                            <span t-esc="move.sale_line_id.price_unit"/>
+                                        </td>
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: center">
+                                            <span t-field="move.product_uom_qty"/>
+                                        </td>
+                                        <td style="border-collapse: collapse; border: 1px solid black; text-align: right">
+                                            $
+                                            <span t-esc="move.sale_line_id.price_subtotal"/>
+                                        </td>
+                                        <t t-set="subtotal" t-value="subtotal + move.sale_line_id.price_subtotal"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr/>
+                        <t t-set="shipping_cost"
+                           t-value="o.sale_id.order_line.filtered(lambda ol: ol.product_id.id == o.channel_id.default_shipping_cost_product_id.id).price_subtotal"/>
+                        <div style="text-align:right; margin-right: 100px">
+                            <b>Sub Total:
+                            </b>
+                            $
+                            <span t-esc="subtotal"/>
+                        </div>
+                        <div style="text-align:right; margin-right: 100px">
+                            <b>Shipping total:
+                            </b>
+                            $
+                            <span t-esc="shipping_cost"/>
+                        </div>
+                        <div style="text-align:right; margin-right: 100px">
+                            <b style="margin-right: 0px">Grand total:
+                            </b>
+                            $
+                            <span t-esc="o.sale_id.amount_total"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="page">
+                        <img class="barcode"
+                             t-att-src="'/report/barcode/Code128/%s' % (o._get_shipstation_barcode_string())"
+                             alt="Barcode" width="300px"
+                             style="display:block; margin-left:auto; margin-right: auto"></img>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

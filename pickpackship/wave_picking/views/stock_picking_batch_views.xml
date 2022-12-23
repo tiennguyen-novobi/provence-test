@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_picking_batch_tree_view" model="ir.ui.view">
+        <field name="name">stock.picking.batch.tree.view</field>
+        <field name="model">stock.picking</field>
+        <field name="arch" type="xml">
+            <tree string="Add: Transfers" default_order="scheduled_date desc">
+                <field name="name"/>
+                <field name="backorder_id"/>
+                <field name="origin"/>
+                <field name="date"/>
+                <field name="scheduled_date"/>
+                <field name="state"/>
+                <button name="action_assign" string="Confirm Transfer" type="object" icon="fa-check text-success" attrs="{'invisible': [('state', 'in', ('done', 'cancel', 'confirmed', 'assigned'))]}"/>
+                <button name="action_cancel" string="Cancel Transfer" type="object" icon="fa-times-circle text-danger" attrs="{'invisible': [('state', 'in', ('done', 'cancel'))]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_picking_outbound_stock_picking_batch" model="ir.ui.view">
+        <field name="name">stock.picking.search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <filter name="draft"  position="before">
+                <filter name="single_pickings" string="Single-Item Transfers" domain="[('sequence_code', '=', 'PICK'), ('state', '=', 'assigned'), ('batch_id', '=', False), ('is_single_picking', '=', True)]"/>
+                <filter name="tote_pickings" string="Tote Transfers" domain="[('sequence_code', '=', 'PICK'), ('state', '=', 'assigned'), ('batch_id', '=', False)]"/>
+                <filter name="order_pickings" string="Order Transfers" domain="[('sequence_code', '=', 'PICK'), ('state', '=', 'assigned'), ('batch_id', '=', False)]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="batch_pickings_tree" model="ir.ui.view">
+        <field name="name">batch.picking.tree</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_tree"/>
+        <field name="priority" eval="1000"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="string">Batch Picking</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="wave_form" model="ir.ui.view">
+        <field name="name">wave.form</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <form string="Batch Picking">
+                <header>
+                    <button name="action_confirm" states="draft" string="Confirm" type="object" class="oe_highlight"/>
+                    <button name="action_print" states="in_progress,done" string="Print" type="object"/>
+                    <button name="auto_select_pickings" string="Auto Select Transfers" type="object" class="oe_highlight" states="draft"/>
+                    <button name="action_done" states="in_progress" string="Done" type="object" class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel" type="object" states="in_progress"/>
+                    <field name="state" widget="statusbar" statusbar_visible="in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" class="oe_inline" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <field name="wave_type" invisible="1" attrs="{'readonly': [('state', 'in', ['in_progress', 'done'])]}"/>
+                        <field name="is_manually_create" invisible="1"/>
+                        <field name="warehouse_id" required="1" attrs="{'readonly': [('state', 'in', ['in_progress', 'done'])]}"/>
+                        <field name="product_id" attrs="{'readonly': [('state', 'in', ['in_progress', 'done'])], 'invisible': [('wave_type', 'in', ['tote', 'order'])]}" />
+                        <field name="company_id" groups="base.group_multi_company" attrs="{'readonly': [('picking_ids', '!=', [])]}" force_save="1"/>
+                        <field name="user_id" attrs="{'readonly': [('state', 'in', ['in_progress', 'done'])]}"/>
+                    </group>
+                    <separator string="Transfers"/>
+                    <field name="picking_ids" widget="many2many" options="{'not_delete': True}"
+                           attrs="{'readonly': [('state', 'in', ['in_progress', 'done'])]}"
+                           domain="[('sale_id.warehouse_id', '=', warehouse_id), ('sequence_code', '=', 'PICK'), ('state', '=', 'assigned'), ('batch_id', '=', False)]"
+                           context="{'tree_view_ref': 'wave_picking.stock_picking_batch_tree_view', 'search_view_ref': 'wave_picking.view_picking_outbound_stock_picking_batch'}"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_picking_order_wave" model="ir.actions.act_window">
+        <field name="name">Order Pickings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking.batch</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('wave_type','=','order')]</field>
+        <field name="context">{
+            'default_wave_type': 'order',
+            'default_is_manually_create': True,
+        }</field>
+        <field name="view_ids"
+            eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('wave_picking.batch_pickings_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('wave_picking.wave_form')})]
+            "
+        />
+    </record>
+    <record id="action_stock_picking_single_wave" model="ir.actions.act_window">
+        <field name="name">Single-Item Pickings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking.batch</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('wave_type','=','single')]</field>
+        <field name="context">{
+            'default_wave_type': 'single',
+            'default_is_manually_create': True,
+        }</field>
+        <field name="view_ids"
+            eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('wave_picking.batch_pickings_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('wave_picking.wave_form')})]
+            "
+        />
+    </record>
+    <record id="action_stock_picking_tote_wave" model="ir.actions.act_window">
+        <field name="name">Tote Pickings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking.batch</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('wave_type','=','tote')]</field>
+        <field name="context">{
+            'default_wave_type': 'tote',
+            'default_is_manually_create': True,
+        }</field>
+        <field name="view_ids"
+            eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('wave_picking.batch_pickings_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('wave_picking.wave_form')})]
+            "
+        />
+    </record>
+
+    <menuitem id="menu_stock_picking_outbound_batch" name="Batch Pickings" parent="stock.menu_stock_warehouse_mgmt" sequence="11"/>
+    <menuitem id="menu_stock_picking_single_wave" action="action_stock_picking_single_wave" parent="wave_picking.menu_stock_picking_outbound_batch" sequence="12"/>
+    <menuitem id="menu_stock_picking_tote_wave" action="action_stock_picking_tote_wave" parent="wave_picking.menu_stock_picking_outbound_batch" sequence="13"/>
+    <menuitem id="menu_stock_picking_order_wave" action="action_stock_picking_order_wave" parent="wave_picking.menu_stock_picking_outbound_batch" sequence="14"/>
+</odoo>

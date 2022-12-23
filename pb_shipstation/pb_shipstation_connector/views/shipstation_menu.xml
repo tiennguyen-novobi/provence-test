@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_config_shipstation" name="ShipStation" parent="omni_manage_channel.menu_configuration" sequence="10">
+        <menuitem id="menu_config_shipstation_account" name="ShipStation Accounts"
+            action="shipstation_connector.action_shipstation_account" sequence="10"/>
+        <menuitem id="menu_config_shipstation_service" name="Shipping Services"
+            action="pb_shipstation_connector.action_view_shipping_services" sequence="20"/>
+    </menuitem>
+</odoo>

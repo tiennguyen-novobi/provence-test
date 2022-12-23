@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ecommerce_channel_kanban" model="ir.ui.view">
+        <field name="name">ecommerce.channel.kanban</field>
+        <field name="model">ecommerce.channel</field>
+        <field name="inherit_id" ref="omni_manage_channel.ecommerce_channel_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_manage_view')]" position="inside">
+                <t t-if="record.platform.raw_value == 'shipstation'">
+                    <div>
+                        <a role="menuitem" type="object" name="open_payment_gateways">Payment Gateways</a>
+                    </div>
+                </t>
+            </xpath>
+            <xpath expr="//div[@name='export_logs']" position="inside">
+                <t t-if="record.platform.raw_value == 'shipstation'">
+                    <a role="menuitem" type="object"
+                    name="open_log_export_order">Order Export</a>
+                </t>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_ecommerce_channel_form_settings" model="ir.ui.view">
+        <field name="name">ecommerce.channel.form.settings</field>
+        <field name="model">ecommerce.channel</field>
+        <field name="priority" eval="1000"/>
+        <field name="inherit_id" ref="multichannel_order.view_ecommerce_channel_form_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_discount_product_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('platform','=','shipstation')]}</attribute>
+            </xpath>
+            <xpath expr="//group[@name='bottom']" position="after">
+                <group name="shipstation_imported_product_field" attrs="{'invisible':[('platform','!=','shipstation')]}">
+                    <label for="shipstation_imported_product_field_ids" string="Product Fields are imported from Store"/>
+                    <div>
+                        <field name="shipstation_imported_product_field_ids" widget="many2many_checkboxes"/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

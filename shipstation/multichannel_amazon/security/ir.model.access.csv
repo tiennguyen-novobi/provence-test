@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_amazon_marketplace_user,access.amazon.marketplace.user,model_amazon_marketplace,base.group_user,1,0,0,0
+access_amazon_marketplace_admin,access.amazon.marketplace.admin,model_amazon_marketplace,base.group_erp_manager,1,1,1,1
+access_amazon_fulfillment_method_user,access.amazon.fulfillment.method.user,model_amazon_fulfillment_method,base.group_user,1,0,0,0
+access_amazon_fulfillment_method_admin,access.amazon.fulfillment.method.admin,model_amazon_fulfillment_method,base.group_erp_manager,1,1,1,1
+access_amazon_report_user,access.amazon.report.user,model_amazon_report,base.group_user,1,0,0,0
+access_amazon_report_admin,access.amazon.report.admin,model_amazon_report,base.group_erp_manager,1,1,1,1
+access_amazon_feed_user,access.amazon.feed.user,model_amazon_feed,base.group_user,1,1,1,0
+access_amazon_feed_admin,access.amazon.feed.admin,model_amazon_feed,base.group_erp_manager,1,1,1,1

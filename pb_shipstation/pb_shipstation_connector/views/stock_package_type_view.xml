@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock.action_package_type_view" model="ir.actions.act_window">
+        <field name="context">{'search_default_package_carrier_type': 1}</field>
+    </record>
+
+    <record id="inherited_stock_package_type_tree" model="ir.ui.view">
+        <field name="name">inherited.stock.package.type.tree</field>
+        <field name="model">stock.package.type</field>
+        <field name="inherit_id" ref="stock.stock_package_type_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="expand">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_package_type_search" model="ir.ui.view">
+        <field name="name">package.type.search</field>
+        <field name="model">stock.package.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <group string="Group By">
+                    <filter name="package_carrier_type" string="Carrier"
+                            context="{'group_by': 'package_carrier_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_shipstation_stock_package_type_tree" name="Package Types"
+              parent="pb_shipstation_connector.menu_config_shipstation" sequence="30"
+              action="stock.action_package_type_view"/>
+</odoo>

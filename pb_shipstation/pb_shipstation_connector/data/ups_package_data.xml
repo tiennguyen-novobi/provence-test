@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="pb_shipstation_connector.ups_package" model="stock.package.type">
+            <field name="name">Package</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">package</field>
+        </record>
+        <record id="pb_shipstation_connector.ups__express_box_large" model="stock.package.type">
+            <field name="name">UPS  Express® Box - Large</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups__express_box_large</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_10_kg_box" model="stock.package.type">
+            <field name="name">UPS 10 KG Box®</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_10_kg_box</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_25_kg_box" model="stock.package.type">
+            <field name="name">UPS 25 KG Box®</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_25_kg_box</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_express_box" model="stock.package.type">
+            <field name="name">UPS Express® Box</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_express_box</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_express_box_medium" model="stock.package.type">
+            <field name="name">UPS Express® Box - Medium</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_express_box_medium</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_express_box_small" model="stock.package.type">
+            <field name="name">UPS Express® Box - Small</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_express_box_small</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_express_pak" model="stock.package.type">
+            <field name="name">UPS Express® Pak</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_express_pak</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_letter" model="stock.package.type">
+            <field name="name">UPS Letter</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_letter</field>
+        </record>
+        <record id="pb_shipstation_connector.ups_tube" model="stock.package.type">
+            <field name="name">UPS Tube</field>
+            <field name="package_carrier_type">ups_walleted</field>
+            <field name="shipper_package_code">ups_tube</field>
+        </record>
+    </data>
+</odoo>

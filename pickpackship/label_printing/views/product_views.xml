@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="model_product_product_form_action_print_product_label_manually" model="ir.actions.server">
+        <field name="name">Print Product Label</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_type">report</field>
+        <field name="state">code</field>
+        <field name="code">
+server_action = env.ref('label_printing.model_product_product_form_action_print_product_label_manually')
+action = records.with_context(printing_server_action_id=server_action.id).print_label()
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_shipstation_confirm_order_wizard_form" model="ir.ui.view">
+        <field name="name">shipstation.confirm.order.wizard.form</field>
+        <field name="model">shipstation.confirm.order.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="order_info">
+                    <field name="id_on_shipstation" invisible="1"/>
+                    <group colspan="2" attrs="{'invisible': [('id_on_shipstation', '!=', 0)]}">
+                        <p>
+                            This order is created from Odoo and not exported to ShipStation yet.<br/>
+                            Do you want to export to ShipStation and buy shipping label?
+                        </p>
+                    </group>
+
+                    <group colspan="2" attrs="{'invisible': [('id_on_shipstation', '=', 0)]}">
+                        <p>
+                            This order has been exported to ShipStation.<br/>
+                            Do you want to update it on ShipStation and buy shipping label?
+                        </p>
+                    </group>
+
+                    <group>
+                        <field name="order_id" readonly="1"/>
+                    </group>
+                </group>
+                <group name="auto_options">
+                    <group attrs="{'invisible': [('id_on_shipstation', '!=', 0)]}">
+                        <field name="auto_export"/>
+                        <field name="shipstation_account_id" options="{'no_create': True, 'no_open': True,'no_edit': True}" attrs="{
+                            'required': [('auto_export', '=', True)],
+                            'invisible': [('auto_export', '=', False)]
+                        }"/>
+                        <field name="store_id" options="{'no_create': True, 'no_open': True,'no_edit': True}" widget="channel_many2one" attrs="{
+                            'required': [('auto_export', '=', True)],
+                            'invisible': [('auto_export', '=', False)]
+                        }"/>
+                    </group>
+                    <group attrs="{'invisible': [('id_on_shipstation', '=', 0)]}">
+                        <field name="auto_update"/>
+                    </group>
+                    <group>
+                        <field name="auto_buy_label"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="action_confirm_pb" string="Confirm order" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shipstation_confirm_order_wizard" model="ir.actions.act_window">
+        <field name="name">Confirmation</field>
+        <field name="res_model">shipstation.confirm.order.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_order_id': active_id}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

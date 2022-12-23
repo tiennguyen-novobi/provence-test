@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="amazon_order_process_rule_form_view" model="ir.ui.view">
+        <field name="name">pb.amazon.order.process.rule.form</field>
+        <field name="model">order.process.rule</field>
+        <field name="inherit_id" ref="multichannel_amazon.amazon_order_process_rule_form_view"/>
+        <field name="arch" type="xml">
+            <field name="is_payment_created" position="after">
+                <field name="platform" invisible="1"/>
+                <field name="auto_buy_label" attrs="{'invisible': [('platform', '!=', 'amazon')]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="order_process_rule_no_payment_tree_view" model="ir.ui.view">
+        <field name="name">pb.order.process.rule.tree</field>
+        <field name="model">order.process.rule</field>
+        <field name="inherit_id" ref="multichannel_order.order_process_rule_no_payment_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="is_payment_created" position="after">
+                <field name="platform" invisible="1"/>
+                <field name="auto_buy_label" attrs="{'column_invisible': [('parent.platform', '!=', 'amazon')]}"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="order_process_rule_with_payment_tree_view" model="ir.ui.view">
+        <field name="name">pb.order.process.rule.tree</field>
+        <field name="model">order.process.rule</field>
+        <field name="inherit_id" ref="multichannel_order.order_process_rule_with_payment_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="is_payment_created" position="after">
+                <field name="platform" invisible="1"/>
+                <field name="auto_buy_label" attrs="{'column_invisible': [('parent.platform', '!=', 'amazon')]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

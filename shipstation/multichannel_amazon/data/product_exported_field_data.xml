@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--Master Template Fields-->
+    <record id="master_template_field_name" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">name</field>
+        <field name="odoo_field_id" ref='product.field_product_template__name'/>
+        <field name="mapping_field_name">name</field>
+        <field name="store_field_name">Title</field>
+        <field name="is_fixed" eval="True"/>
+    </record>
+    <record id="master_template_field_price" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">price</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_template__lst_price'/>
+        <field name="mapping_field_name">lst_price</field>
+        <field name="store_field_name">Price</field>
+    </record>
+    <record id="master_template_field_ean" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">ean</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_template__ean'/>
+        <field name="mapping_field_name">ean</field>
+        <field name="store_field_name">EAN</field>
+        <field name="is_fixed" eval="True"/>
+    </record>
+    <record id="master_template_field_isbn" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">isbn</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_template__isbn'/>
+        <field name="mapping_field_name">isbn</field>
+        <field name="store_field_name">ISBN</field>
+        <field name="is_fixed" eval="True"/>
+    </record>
+    <record id="master_template_field_upc" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">upc</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_template__upc'/>
+        <field name="mapping_field_name">upc</field>
+        <field name="store_field_name">UPC</field>
+        <field name="is_fixed" eval="True"/>
+    </record>
+    <record id="master_template_field_sku" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">sku</field>
+        <field name="odoo_field_id" ref='product.field_product_template__default_code'/>
+        <field name="mapping_field_name">default_code</field>
+        <field name="store_field_name">SKU</field>
+        <field name="is_fixed" eval="True"/>
+    </record>
+
+    <!--Master Variant Fields-->
+    <record id="master_variant_field_price" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">price</field>
+        <field name="store_field_name">Price</field>
+        <field name="odoo_field_id" ref='product.field_product_product__lst_price'/>
+        <field name="mapping_field_name">lst_price</field>
+        <field name="related_template_field_id" ref="master_template_field_price"/>
+    </record>
+    <record id="master_variant_field_sku" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">sku</field>
+        <field name="store_field_name">SKU</field>
+        <field name="odoo_field_id" ref='product.field_product_product__default_code'/>
+        <field name="mapping_field_name">default_code</field>
+        <field name="is_fixed" eval="True"/>
+    </record>
+    <record id="master_variant_field_ean" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">ean</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_product__ean'/>
+        <field name="mapping_field_name">ean</field>
+        <field name="store_field_name">EAN</field>
+        <field name="related_template_field_id" ref="master_template_field_ean"/>
+    </record>
+    <record id="master_variant_field_isbn" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">isbn</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_product__isbn'/>
+        <field name="mapping_field_name">isbn</field>
+        <field name="store_field_name">ISBN</field>
+        <field name="related_template_field_id" ref="master_template_field_isbn"/>
+    </record>
+    <record id="master_variant_field_upc" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">upc</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_product__upc'/>
+        <field name="mapping_field_name">upc</field>
+        <field name="store_field_name">UPC</field>
+        <field name="related_template_field_id" ref="master_template_field_upc"/>
+    </record>
+    <record id="master_variant_field_price" model="product.exported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">price</field>
+        <field name="odoo_field_id" ref='product.field_product_product__lst_price'/>
+        <field name="mapping_field_name">lst_price</field>
+        <field name="store_field_name">Price</field>
+        <field name="related_template_field_id" ref="master_template_field_price"/>
+    </record>
+</odoo>

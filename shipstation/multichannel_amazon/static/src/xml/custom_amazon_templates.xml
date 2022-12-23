@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-inherit="omni_manage_channel.ImportProductChannelComponent" t-inherit-mode="extension" owl="1">
+        <xpath expr="//label[@for='auto_create_master']" position="after">
+            <div t-if="props.channel_platform === 'amazon'">
+                <span class="text-muted">Automatically create a new product as a single-variation</span>
+            </div>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="export_to_shipstation_form_view" model="ir.ui.view">
+        <field name="name">export.to.shipstation.form.view</field>
+        <field name="model">export.shipstation.compose</field>
+        <field name="arch" type="xml">
+            <form string="Export to ShipStation">
+                <group>
+                    <field name="is_exported_to_shipstation" invisible="1"/>
+                    <group colspan="2" attrs="{'invisible': [('is_exported_to_shipstation', '=', True)]}">
+                        <p>
+                            The order(s) will be exported to selected store in ShipStation.
+                            If the selected order(s) were already exported, Odoo will not change the store of them.
+                        </p>
+                    </group>
+                    <group colspan="2" attrs="{'invisible': [('is_exported_to_shipstation', '=', False)]}">
+                        <p>
+                            Do you want to update the order(s) on ShipStation ?
+                        </p>
+                    </group>
+                    <group colspan="2" attrs="{'invisible': [('is_exported_to_shipstation', '=', True)]}">
+                        <field name="order_id" readonly="1" options="{'no_open': True}" attrs="{'invisible': [('order_id', '=', False)]}"/>
+                        <field name="shipstation_account_id" required="1" options="{'no_create': True, 'no_open': True,'no_edit': True}"/>
+                        <field name="store_id" required="1" options="{'no_create': True, 'no_open': True,'no_edit': True}" widget="channel_many2one"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string='Export' name="export_to_shipstation" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+   <record id="export_to_shipstation_action" model="ir.actions.act_window">
+        <field name="name">Export to ShipStation</field>
+        <field name="res_model">export.shipstation.compose</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="export_to_shipstation_form_view"/>
+    </record>
+</odoo>

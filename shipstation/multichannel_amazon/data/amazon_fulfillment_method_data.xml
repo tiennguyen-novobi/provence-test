@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="fba_fulfillment_method" model="amazon.fulfillment.method">
+        <field name="name">FBA</field>
+        <field name="type">AFN</field>
+    </record>
+    <record id="fbm_fulfillment_method" model="amazon.fulfillment.method">
+        <field name="name">FBM</field>
+        <field name="type">MFN</field>
+    </record>
+</odoo>

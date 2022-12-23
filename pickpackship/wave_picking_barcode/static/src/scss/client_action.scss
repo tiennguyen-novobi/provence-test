@@ -1,0 +1,57 @@
+// Style for buttons
+// =====================================
+.o_stock_barcode_main_menu {
+  @include media-breakpoint-up(md) {
+        .button_new_wave_picking, .button_sorting_picking_barcode {
+            font-size: 1.25rem;
+        }
+  }
+  .row-wave-picking{
+    flex-wrap: wrap;
+    margin-right: -16px;
+    margin-left: -16px;
+    display: flex;
+    .col{
+      .btn{
+        height:100%
+      }
+    }
+
+  }
+}
+
+.o_wave_picking_barcode_client_action {
+  .o_barcode_lines {
+    .o_barcode_line {
+      &_details {
+          .bin-icon {
+              opacity: 0.5;
+              margin-right: 5px;
+          }
+      }
+
+      .o_reset {
+          cursor: pointer;
+          color: #8f8f8f;
+      }
+
+    }
+    .highlight_location{
+      background-color: #17a2b8!important;
+      border-color: #17a2b8!important;
+      color: white;
+      div:first-child{
+        font-weight: unset !important;
+      }
+    }
+    .o_highlight_green{
+        background-color: rgba(0, 160, 74, 0.25);
+        border-color: #00A04A;
+        box-shadow: unset !important
+    }
+  }
+  .o_wave_label {
+    font-size: 40px;
+    text-align: center;
+  }
+}

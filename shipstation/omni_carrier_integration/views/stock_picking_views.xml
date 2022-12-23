@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="novobi_shipping_account.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='shipping_info_with_label']/group[1]/group[1]/field[@name='shipping_account_id']" position="before">
+                <field name="requested_carrier" readonly="1" />
+            </xpath>
+            <xpath expr="//page[@name='shipping_info_without_label']/group[1]/group[1]/field[@name='carrier_name']" position="before">
+                <field name="requested_carrier" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_create_label_form" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="novobi_shipping_account.view_picking_create_label_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='shipping_account_id']" position="before">
+                <field name="requested_carrier" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

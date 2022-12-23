@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--Master Template Fields-->
+    <record id="imported_master_template_field_name" model="product.imported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">name</field>
+        <field name="odoo_field_id" ref='product.field_product_template__name'/>
+        <field name="mapping_field_name">name</field>
+        <field name="store_field_name">Title</field>
+        <field name="is_fixed" eval="True"/>
+    </record>
+    <record id="imported_master_import_template_field_price" model="product.imported.field">
+        <field name="platform">amazon</field>
+        <field name="api_ref">price</field>
+        <field name="odoo_field_id" ref='multichannel_product.field_product_template__lst_price'/>
+        <field name="mapping_field_name">lst_price</field>
+        <field name="store_field_name">Price</field>
+    </record>
+</odoo>

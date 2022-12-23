@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="job_function_amazon_get_order" model="queue.job.function">
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="method">amazon_get_data</field>
+        <field name="channel_id" ref="omni_manage_channel.channel_enforce" />
+        <field name="related_action" eval='{"func_name": "amazon_get_data"}' />
+        <field name="retry_pattern" eval="{1: 60, 5: 120, 10: 180, 15: 600}" />
+    </record>
+    <record id="job_function_amazon_get_order_detail" model="queue.job.function">
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="method">_amazon_import_order_details</field>
+        <field name="channel_id" ref="omni_manage_channel.channel_synching" />
+        <field name="related_action" eval='{"func_name": "_amazon_import_order_details"}' />
+        <field name="retry_pattern" eval="{1: 60, 5: 120, 10: 180, 15: 600}" />
+    </record>
+
+    <record id="job_function_amazon_report_get_status" model="queue.job.function">
+        <field name="model_id" ref="multichannel_amazon.model_amazon_report"/>
+        <field name="method">get_status</field>
+        <field name="channel_id" ref="omni_manage_channel.channel_synching" />
+        <field name="related_action" eval='{"func_name": "get_status"}' />
+        <field name="retry_pattern" eval="{1: 60, 5: 120, 10: 180, 15: 600}" />
+    </record>
+
+    <record id="job_function_amazon_report_get_report_document" model="queue.job.function">
+        <field name="model_id" ref="multichannel_amazon.model_amazon_report"/>
+        <field name="method">get_report_document</field>
+        <field name="channel_id" ref="omni_manage_channel.channel_synching" />
+        <field name="related_action" eval='{"func_name": "get_report_document"}' />
+        <field name="retry_pattern" eval="{1: 60, 5: 120, 10: 180, 15: 600}" />
+    </record>
+
+    <record id="job_function_product_template_amazon_import_products" model="queue.job.function">
+        <field name="model_id" ref="multichannel_product.model_product_template"/>
+        <field name="method">_amazon_import_products</field>
+        <field name="channel_id" ref="omni_manage_channel.channel_synching" />
+        <field name="related_action" eval='{"func_name": "_amazon_import_products"}' />
+        <field name="retry_pattern" eval="{1: 60, 5: 120, 10: 180, 15: 600}" />
+    </record>
+
+</odoo>

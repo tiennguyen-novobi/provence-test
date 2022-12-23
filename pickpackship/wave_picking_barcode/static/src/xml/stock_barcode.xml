@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-extend="main_menu">
+        <t t-jquery="ul li:last" t-operation="after">
+            <li>Scan a <b>batch picking</b> to start picking.</li>
+        </t>
+        <t t-jquery="div:has(.o_stock_barcode_main_menu) div:has(.row)" t-operation="append">
+            <div class="row-wave-picking">
+                <div class="col">
+                    <button class="button_new_wave_picking btn btn-block btn-primary mt-4 mb-4 mb-sm-0">New Batch</button>
+                </div>
+                <div class="col">
+                    <button class="button_sorting_picking_barcode btn btn-block btn-primary mt-4 mb-4 mb-sm-0">Sorting</button>
+                </div>
+            </div>
+        </t>
+    </t>
+</templates>

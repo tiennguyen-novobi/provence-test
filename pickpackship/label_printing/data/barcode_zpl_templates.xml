@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="label_barcode_location_view">
+            <t t-foreach="docs" t-as="location">
+                <t t-translation="off">
+                ^XA
+                ^FO100,50
+                ^A0N,44,33^FD<t t-esc="location.name"/>^FS
+                <t t-if="location.barcode">
+                ^FO100,100^BY3
+                ^BCN,100,Y,N,N
+                ^FD<t t-esc="location.barcode"/>^FS
+                </t>
+                ^XZ
+                </t>
+            </t>
+        </template>
+
+        <template id="label_barcode_move_line_view">
+            <t t-foreach="docs" t-as="ml">
+                <t t-translation="off">
+                    ^XA
+                    ^FO 100,300
+                    ^A0,50,30^FDProduct Name:^FS
+                    ^FO 290,300
+                    ^A0,50,30^FD<t t-esc="ml.product_id.name"/>^FS
+
+                    ^FO 100,400
+                    ^A0,50,30^FDQuantity:^FS
+                    ^FO 220,400
+                    ^A0,50,30^FD<t t-esc="ml.qty_done"/>^FS
+
+                    ^FO 100,500
+                    ^A0,50,30^FDLot/Serial #:^FS
+                    <t t-if="ml.lot_id.name">
+                        ^FO 220,550
+                        ^BY2
+                        ^BC,250^FD<t t-esc="ml.lot_id.name"/>^FS
+                        ^XZ
+                    </t>
+                    <t t-else="">
+                        ^XZ
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_location_barcode_zpl" model="ir.actions.report">
+            <field name="name">Location Label (ZPL)</field>
+            <field name="model">stock.location</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">label_printing.label_barcode_location_view</field>
+            <field name="report_file">label_printing.label_barcode_location_view</field>
+            <field name="binding_model_id" ref="stock.model_stock_location"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_move_line_zpl" model="ir.actions.report">
+            <field name="name">Product Label (ZPL)</field>
+            <field name="model">stock.move.line</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">label_printing.label_barcode_move_line_view</field>
+            <field name="report_file">label_printing.label_barcode_move_line_view</field>
+            <field name="binding_model_id" ref="stock.model_stock_location"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

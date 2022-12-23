@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shipstation_auto_export_rule_view_form" model="ir.ui.view">
+        <field name="name">shipstation.auto.export.rule.view.form</field>
+        <field name="model">shipstation.auto.export.rule</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="filter_domain" string="Condition" 
+                        widget="domain" options="{'model': 'sale.order', 'in_dialog': True}"/>
+                        <field name="account_id" invisible="1"/>
+                        <field name="available_store_ids" invisible="1"/>
+                        <field name="store_id" string="Export to Store" 
+                        widget="channel_many2one"
+                        domain="[('id','in',available_store_ids)]"
+                        options="{'no_create': True, 'no_open': True, 'no_create_edit':True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="shipstation_auto_export_rule_view_tree" model="ir.ui.view">
+        <field name="name">shipstation.auto.export.rule.view.tree</field>
+        <field name="model">shipstation.auto.export.rule</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="filter_domain" string="Condition"/>
+                <field name="account_id" invisible="1"/>
+                <field name="store_id" string="Export to Store" widget="channel_many2one" options="{'no_open':True,'no_create':True}"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

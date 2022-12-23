@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tote_wave_picking_barcode_client_action" model="ir.actions.client">
+        <field name="name">Tote Wave Picking Barcode Client Action</field>
+        <field name="tag">tote_wave_picking_barcode_client_action</field>
+    </record>
+
+    <record id="order_wave_picking_barcode_client_action" model="ir.actions.client">
+        <field name="name">Order Wave Picking Barcode Client Action</field>
+        <field name="tag">order_wave_picking_barcode_client_action</field>
+    </record>
+
+    <record id="sorting_picking_barcode_client_action" model="ir.actions.client">
+        <field name="name">Sorting Picking Barcode Client Action</field>
+        <field name="tag">sorting_picking_barcode_client_action</field>
+        <field name="params">{"title": "Sorting"}</field>
+    </record>
+
+    <record id="email_template_to_alert" model="mail.template">
+        <field name="name">Send Alert</field>
+        <field name="subject">ALERT - The stock at {{object.display_name}} in the warehouse {{ctx.get('warehouse_name', False)}} is {{ctx.get('error_name', False)}}</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="email_from">{{user.email_formatted or user.company_id.email}}</field>
+        <field name="partner_to">{{ctx.get('partner_to', False)}}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                Hello,
+                <br/>
+                <br/>
+                <p><strong><t t-out="user.name"/></strong> just sent you a notification that the stock of products at <strong>
+                    <t t-out="object.display_name"/></strong> in the warehouse <strong><t t-out="ctx.get('warehouse_name', False)"/></strong> is <t t-out="ctx.get('error_name', False)"/>.<br/>
+                    Please <t t-out="ctx.get('action_name', False)"/> for it. <br/>
+                    You can view the detail here:
+                    <t t-if="ctx.get('open_location_url')">
+                        <a t-att-href="ctx['open_location_url']" style="color: #008784; font-weight: bold;">
+                            <t t-out="object.display_name"/>
+                        </a>
+                    </t>
+                </p>
+                <br/>
+                <p>Thank you,</p>
+                <div style="font-size: 12px; color: grey;">
+                    <t t-out="object.company_id.street"/><br/>
+                    <t t-out="object.company_id.city"/>, <t t-out="object.company_id.state_id.code"/> <t t-out="object.company_id.zip"/><br/>
+                    <t t-out="object.company_id.name"/><br/>
+                    <img class="o_logo" t-attf-src="/web/binary/company_logo" alt="Logo"/>
+                </div>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+</odoo>

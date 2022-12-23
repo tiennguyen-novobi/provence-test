@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_shipstation_picking_form" model="ir.ui.view">
+        <field name="name">shipstation.stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="novobi_shipping_account.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='shipping_info_without_label']//field[@name='carrier_name']" position="before">
+                <field name="shipstation_account_id" readonly="1" attrs="{'invisible': [('id_on_shipstation', '=', 0)]}" />
+                <field name="id_on_shipstation" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='shipping_info_without_label']//field[@name='carrier_name']" position="attributes">
+                <attribute name="attrs">{'invisible': [('id_on_shipstation', '!=', 0)]}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='shipping_info_without_label']//field[@name='shipping_date']" position="before">
+                <field name="insurance_cost" readonly="1" attrs="{'invisible': [('id_on_shipstation', '=', 0)]}" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

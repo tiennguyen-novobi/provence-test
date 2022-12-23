@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+        <record id="menu_shipstation_orders" model="ir.ui.menu">
+            <field name="name">ShipStation</field>
+            <field name="active" eval="False"/>
+            <field name="parent_id" ref="omni_manage_channel.menu_orders_root"/>
+            <field name="sequence">1</field>
+        </record>
+    </data>
+</odoo>

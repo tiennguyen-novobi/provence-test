@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="inherited_view_picking_create_label_form" model="ir.ui.view">
+        <field name="name">inherited.stock.picking.create.label.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="pb_shipstation_connector.inherited_view_picking_create_label_form"/>
+        <field name="arch" type="xml">
+            <field name="shipstation_account_id" position="before">
+                <field name="platform" invisible="1"/>
+                <!--                <field name="delivery_type" force_save="1"/>-->
+            </field>
+            <field name="shipstation_account_id" position="attributes">
+                <attribute name="required">0</attribute>
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')], 'required':
+                    [('platform', '!=', 'amazon')]}
+                </attribute>
+            </field>
+            <field name="ss_carrier_name" position="attributes">
+                <attribute name="required">0</attribute>
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')], 'required':
+                    [('platform', '!=', 'amazon')]}
+                </attribute>
+            </field>
+            <field name="shipstation_account_delivery_carrier_ids" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')], 'required':
+                    [('platform', '!=', 'amazon')]}
+                </attribute>
+            </field>
+            <field name="default_shipstation_stock_package_type_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')], 'required':
+                    [('platform', '!=', 'amazon')]}
+                </attribute>
+            </field>
+            <field name="delivery_carrier_id" position="attributes">
+                <attribute name="domain">['|', '&amp;', '&amp;', '&amp;', ('delivery_type', '=', 'shipstation'),
+                    ('ss_account_id.id','=',shipstation_account_id), ('id', 'in',
+                    shipstation_account_delivery_carrier_ids), ('ss_carrier_code', '=', ss_carrier_name), '&amp;',
+                    ('delivery_type', '=', 'amazon'), ('delivery_type', '=', platform)]
+                </attribute>
+                <attribute name="required">0</attribute>
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')]}</attribute>
+            </field>
+            <field name="shipstation_usps_confirmation" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('platform', '!=', 'shipstation'), ('ss_carrier_code', '!=',
+                    'stamps_com')]}
+                </attribute>
+            </field>
+            <field name="shipstation_fedex_confirmation" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('platform', '!=', 'shipstation'), ('ss_carrier_code', '!=',
+                    'fedex')]}
+                </attribute>
+            </field>
+            <field name="shipstation_dhl_worldwide_confirmation" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('platform', '!=', 'shipstation'), ('ss_carrier_code', '!=',
+                    'dhl_express_worldwide')]}
+                </attribute>
+            </field>
+            <field name="shipstation_ups_confirmation" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('platform', '!=', 'shipstation'), ('ss_carrier_code', '!=',
+                    'ups_walleted')]}
+                </attribute>
+            </field>
+            <field name="shipstation_insurance" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '!=', 'shipstation')]}</attribute>
+            </field>
+            <field name="shipstation_insurance" position="after">
+                <field name="amazon_insurance" attrs="{'invisible': [('platform', '!=', 'amazon')]}"/>
+                <field name="amazon_declared_value" attrs="{'invisible': [('amazon_insurance', '=', False)]}"/>
+            </field>
+            <field name="estimated_shipping_rate" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')]}</attribute>
+            </field>
+            <field name="estimated_done_date" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')]}</attribute>
+            </field>
+            <group name="other_options_shipstation" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '!=', 'shipstation')]}</attribute>
+            </group>
+            <group name="other_options_shipstation" position="after">
+                <span attrs="{'invisible': [('platform', '!=', 'amazon')]}">
+                    <b style="color: red">IMPORTANT:</b>
+                    Please always press Get Rate before creating a label to make sure the information
+                    is updated.
+                </span>
+                <group>
+                    <field name="suitable_service_id" domain='[("picking_id", "=", id)]' widget="radio"
+                           attrs="{'invisible': [('platform', '!=', 'amazon')]}"/>
+                </group>
+            </group>
+            <button name="action_create_label" position="before">
+                <button string="Get Rate" name="amazon_get_rate_and_delivery_time"
+                        attrs="{'invisible': [('platform', '!=', 'amazon')]}"
+                        type="object" class="btn-primary"/>
+            </button>
+            <button name="action_create_label" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')]}</attribute>
+            </button>
+            <button name="action_create_label" position="after">
+                <button string="Create Label" name="amazon_create_shipment_label"
+                        attrs="{'invisible': [('platform', '!=', 'amazon')]}"
+                        type="object" class="btn-primary"/>
+            </button>
+        </field>
+    </record>
+
+    <!-- remove confusable "print label" actions -->
+    <function model="ir.actions.server" name="unlink_action"
+              eval="[ref('label_printing.model_stock_picking_form_action_print_shipping_label_manually')]"/>
+    <function model="ir.actions.server" name="unlink_action"
+              eval="[ref('novobi_shipping_account.action_report_shipping_label')]"/>
+
+    <record id="action_print_shipping_labels" model="ir.actions.server">
+        <field name="name">Print Shipping Labels</field>
+        <field name="model_id" ref="model_stock_picking"/>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.do_print_shipping_labels()</field>
+    </record>
+</odoo>

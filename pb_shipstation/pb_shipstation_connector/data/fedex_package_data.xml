@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="pb_shipstation_connector.fedex_package" model="stock.package.type">
+            <field name="name">Package</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">package</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_envelope_onerate" model="stock.package.type">
+            <field name="name">FedEx One Rate® Envelope</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_envelope_onerate</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_extra_large_box_onerate" model="stock.package.type">
+            <field name="name">FedEx One Rate® Extra Large Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_extra_large_box_onerate</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_large_box_onerate" model="stock.package.type">
+            <field name="name">FedEx One Rate® Large Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_large_box_onerate</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_medium_box_onerate" model="stock.package.type">
+            <field name="name">FedEx One Rate® Medium Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_medium_box_onerate</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_pak_onerate" model="stock.package.type">
+            <field name="name">FedEx One Rate® Pak</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_pak_onerate</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_small_box_onerate" model="stock.package.type">
+            <field name="name">FedEx One Rate® Small Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_small_box_onerate</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_tube_onerate" model="stock.package.type">
+            <field name="name">FedEx One Rate® Tube</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_tube_onerate</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_10kg_box" model="stock.package.type">
+            <field name="name">FedEx® 10kg Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_10kg_box</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_25kg_box" model="stock.package.type">
+            <field name="name">FedEx® 25kg Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_25kg_box</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_box" model="stock.package.type">
+            <field name="name">FedEx® Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_box</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_envelope" model="stock.package.type">
+            <field name="name">FedEx® Envelope</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_envelope</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_extra_large_box" model="stock.package.type">
+            <field name="name">FedEx® Extra Large Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_extra_large_box</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_large_box" model="stock.package.type">
+            <field name="name">FedEx® Large Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_large_box</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_medium_box" model="stock.package.type">
+            <field name="name">FedEx® Medium Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_medium_box</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_pak" model="stock.package.type">
+            <field name="name">FedEx® Pak</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_pak</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_small_box" model="stock.package.type">
+            <field name="name">FedEx® Small Box</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_small_box</field>
+        </record>
+        <record id="pb_shipstation_connector.fedex_tube" model="stock.package.type">
+            <field name="name">FedEx® Tube</field>
+            <field name="package_carrier_type">fedex</field>
+            <field name="shipper_package_code">fedex_tube</field>
+        </record>
+    </data>
+</odoo>

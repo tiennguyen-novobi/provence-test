@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+    <record id="resource_import_operation_amazon_product_all_active" model="resource.import.operation.type">
+        <field name="name">Import all active products</field>
+        <field name="platform">amazon</field>
+        <field name="resource">product</field>
+        <field name="sequence">10</field>
+        <field name="code">all_active</field>
+        <field name="type">visible_or_active</field>
+        <field name="is_update_last_sync" eval="True"/>
+    </record>
+</odoo>

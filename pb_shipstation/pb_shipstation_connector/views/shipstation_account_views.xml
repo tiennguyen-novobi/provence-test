@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="inherited_view_shipstation_form_services" model="ir.ui.view">
+        <field name="name">inherited.shipstation.account.form.services</field>
+        <field name="model">shipstation.account</field>
+        <field name="inherit_id" ref="shipstation_connector.view_shipstation_form_services"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div/p" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/div/p" position="after">
+                <p>Following is the list of shipping services on ShipStation account. Check/uncheck them as on
+                    ShipStation if necessary.
+                </p>
+            </xpath>
+            <field name="delivery_carrier_ids" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+            <button name="create_or_update_carrier_and_service" position="attributes">
+                <attribute name="string">Save &amp; Refresh</attribute>
+            </button>
+        </field>
+    </record>
+</odoo>

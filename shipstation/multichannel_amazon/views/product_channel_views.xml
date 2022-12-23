@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_amazon_product_channel_form" model="ir.ui.view">
+            <field name="name">amazon.product.channel.form</field>
+            <field name="model">product.channel</field>
+            <field name="priority">20</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="multichannel_product.view_product_channel_form"/>
+            <field name="arch" type="xml">
+                <form position="attributes">
+                    <attribute name="edit">0</attribute>
+                </form>
+                <button name="remove_online_and_mapping" position="replace">
+                    <button/>
+                </button>
+                <button name="export_from_mapping" position="replace">
+                    <button/>
+                </button>
+                <button name="%(multichannel_product.action_product_channel_image_tree_view_only)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <sheet position="inside">
+                    <section id="amazon_platform">
+                        <group>
+                            <group name="basic_information_left">
+                                <field name="amazon_marketplace_id" string="Marketplace" 
+                                options="{'no_create': True, 'no_open': True}"/>
+                                <field name="product_tmpl_id" string="Product" readonly="1"/>
+                                <field name="default_code"
+                                       readonly="1"
+                                       force_save="1"/>
+                                <field name="amazon_product_type_id" invisible="1"/>
+                                <field name="asin"
+                                    attrs="{'invisible':[('amazon_product_type_id', '!=', 'ASIN')]}"
+                                    readonly="1"
+                                    force_save="1"/>
+                                <field name="isbn"
+                                    attrs="{'invisible':[('amazon_product_type_id', '!=', 'ISBN')]}"
+                                    readonly="1"
+                                    force_save="1"/>
+                                <field name="ean"
+                                    attrs="{'invisible':[('amazon_product_type_id', '!=', 'EAN')]}"
+                                    readonly="1"
+                                    force_save="1"/>
+                                <field name="upc"
+                                    attrs="{'invisible':[('amazon_product_type_id', '!=', 'UPC')]}"
+                                    readonly="1"
+                                    force_save="1"/>
+                            </group>
+                            <group name="basic_information_right">
+                                <field name="lst_price"
+                                       widget="monetary"
+                                       readonly="1"
+                                       options="{'currency_field': 'currency_id', 'field_digits': True}"
+                                       attrs="{'invisible':[('is_show_variants', '=', True)]}"
+                                       string="Your Price" required="1"/>
+                                <field name="amazon_product_condition" string="Condition"/>
+                                <field name="amazon_fulfillment_channel" string='Fulfillment Channel' readonly="1"/>
+                            </group>
+                        </group>
+                    </section>
+                </sheet>
+            </field>
+        </record>
+
+        <record id="view_product_channel_amazon_tree" model="ir.ui.view">
+            <field name="name">product.channel.amazon.tree</field>
+            <field name="model">product.channel</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="multichannel_product.view_product_channel_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_tmpl_id" position="after">
+                    <field name="amazon_product_condition" string="Condition"/>
+                    <field name="amazon_fulfillment_channel" string="Fulfillment Channel"/>
+                </field>
+                <field name="is_needed_to_export" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="product_variant_count" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_amazon_product_channel_search" model="ir.ui.view">
+            <field name="name">amazon.product.channel.search</field>
+            <field name="model">product.channel</field>
+             <field name="mode">primary</field>
+            <field name="inherit_id" ref="multichannel_product.view_product_channel_search"/>
+            <field name="arch" type="xml">
+                <filter name="is_needed_to_export" position="after">
+                    <group expand="0" string="Group By">
+                        <filter name="group_fulfillment_channel" string="Fulfillment Channel" domain="[]" context="{'group_by': 'amazon_fulfillment_channel'}"/>
+                    </group>
+                 </filter>
+                <filter name="is_needed_to_export" position="replace"/>
+            </field>
+        </record>
+    </data>
+</odoo>

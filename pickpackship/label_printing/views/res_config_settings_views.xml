@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.stock</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='stock']" position="inside">
+                <h2>Printing</h2>
+                <div class="row mt16 o_settings_container" name="printing_configuration">
+                    <div class="col-12 col-lg-6 o_setting_box" id="printing_by_bartender">
+                        <div class="o_setting_left_pane">
+                            <field name="module_printing_by_bartender" widget="upgrade_boolean"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="module_printing_by_bartender"/>
+                            <a href="https://www.seagullscientific.com" title="Documentation" class="o_doc_link" target="_blank"></a>
+                            <div class="text-muted">
+                                Print labels with BarTender
+                            </div>
+                            <div class="content-group">
+                                <div id="printing_by_bartender_configuration" class="mt8" attrs="{'invisible': [('module_printing_by_bartender','=',False)]}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="printing_by_qz">
+                        <div class="o_setting_left_pane">
+                            <field name="module_printing_by_qz" widget="upgrade_boolean"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="module_printing_by_qz"/>
+                            <a href="https://qz.io" title="Documentation" class="o_doc_link" target="_blank"></a>
+                            <div class="text-muted">
+                                Print labels with QZ.
+                            </div>
+                            <div class="content-group">
+                                <div id="printing_by_qz_configuration">
+                                </div>
+                                <div id="printing_by_qz_label_configuration">
+                                    <div class="mt8" attrs="{'invisible': [('module_printing_by_qz','=',False)]}">
+                                        <div class="col-sm">
+                                            <label for="label_width" string="Label Width"/>
+                                            <div class="text-muted">
+                                                Set label width (inch)
+                                            </div>
+                                            <div class="content-group mt16">
+                                                <field name="label_width" attrs="{'required': [('module_printing_by_qz','!=',False)]}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt8" attrs="{'invisible': [('module_printing_by_qz','=',False)]}">
+                                        <div class="col-sm">
+                                            <label for="label_height" string="Label Height"/>
+                                            <div class="text-muted">
+                                                Set label height (inch)
+                                            </div>
+                                            <div class="content-group mt16">
+                                                <field name="label_height" attrs="{'required': [('module_printing_by_qz','!=',False)]}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt8" attrs="{'invisible': [('module_printing_by_qz','=',False)]}">
+                                        <div class="col-sm">
+                                            <label for="printer_dpi" string="DPI"/>
+                                            <div class="text-muted">
+                                                Set dpi for printer
+                                            </div>
+                                            <div class="content-group mt16">
+                                                <field name="printer_dpi" attrs="{'required': [('module_printing_by_qz','!=',False)]}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="printing_by_iot">
+                        <div class="o_setting_left_pane">
+                            <field name="module_printing_by_iot" widget="upgrade_boolean"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="module_printing_by_iot"/>
+                            <a href="https://www.odoo.com/documentation/15.0/applications/productivity/iot.html" title="Documentation" class="o_doc_link" target="_blank"></a>
+                            <div class="text-muted">
+                                Print labels with IoT Box.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

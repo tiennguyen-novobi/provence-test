@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="stock_barcode.MainComponent" t-inherit-mode="extension">
+        <div class="o_barcode_control o_action_buttons d-flex" position="inside">
+            <button class="btn btn-secondary text-uppercase" t-on-click="printSlip"
+                    t-if="env.model.record.picking_type_code == 'outgoing'">
+                <i class="fa fa-file mr-1"/>
+                Print Packing Slip &amp; Label
+            </button>
+        </div>
+        <span class="o_title navbar-text text-white" position="after">
+            <div id="picking_id" t-esc="env.model.record.id" class="d-none"/>
+        </span>
+    </t>
+</templates>

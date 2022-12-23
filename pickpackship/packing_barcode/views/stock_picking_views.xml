@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_unhold_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.unhold.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_toggle_is_locked'][2]" position="after">
+                <field name="is_hold" invisible="1"/>
+                <field name="sequence_code" invisible="1"/>
+                <button name="unhold_picking" type="object" string="Unhold" attrs="{'invisible': ['|', ('is_hold', '=', False), ('sequence_code', '=', 'PICK')]}" confirm="Are you sure you want to unhold this transfer?" groups="stock.group_stock_manager"/>
+            </xpath>
+            <xpath expr="//header" position="after">
+                <div class="alert alert-danger" role="alert" style="margin-bottom:0px;text-align:center;" attrs="{'invisible': ['|', ('is_hold', '=', False), ('sequence_code', '=', 'PICK')]}">
+                    <h3>This transfer is <b>On Hold</b></h3>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_unhold_picking_search" model="ir.ui.view">
+        <field name="name">stock.picking.unhold.search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='picking_type']" position="after">
+                <filter string="On Hold" name="is_hold" domain="[('is_hold','=', True)]" help="On Hold Packing"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

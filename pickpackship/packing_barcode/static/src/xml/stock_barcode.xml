@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-extend="main_menu">
+        <t t-jquery="div:has(.o_stock_barcode_main_menu) div:has(.row-wave-picking) div.col:last" t-operation="after">
+            <div class="col">
+                <button class="button_packing btn btn-block btn-primary mt-4 mb-4 mb-sm-0">Shipping</button>
+            </div>
+        </t>
+    </t>
+</templates>

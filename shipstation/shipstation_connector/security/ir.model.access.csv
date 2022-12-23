@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_shipstation_account_user,shipstation.account.user,model_shipstation_account,base.group_user,1,0,0,0
+access_shipstation_account_admin,shipstation.account.admin,model_shipstation_account,base.group_system,1,1,1,1
+access_export_shipstation_compose_user,export.shipstation.compose.user,model_shipstation_account,base.group_user,1,0,0,0
+access_export_shipstation_compose_admin,export.shipstation.compose.admin,model_export_shipstation_compose,base.group_system,1,1,1,1
+access_shipstation_auto_export_rule_user,shipstation.auto.export.rule.user,model_shipstation_auto_export_rule,base.group_user,1,0,0,0
+access_shipstation_auto_export_rule_admin,shipstation.auto.export.rule.admin,model_shipstation_auto_export_rule,base.group_system,1,1,1,1
+access_shipstation_imported_product_field_user,shipstation.imported.product.field.user,model_shipstation_imported_product_field,base.group_user,1,1,1,1

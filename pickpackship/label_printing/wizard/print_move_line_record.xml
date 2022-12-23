@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright © 2020 Novobi, LLC. See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <record id="view_print_move_line_record_label_create_action" model="ir.actions.act_window">
+        <field name="name">Print Label</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">print.move.line.record.label.create</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

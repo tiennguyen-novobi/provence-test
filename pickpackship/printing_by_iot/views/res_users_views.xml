@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form" model="ir.ui.view">
+        <field name="name">view.users.form.inherit.printing.by.iot</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='preferences']" position="after">
+                <page string="Default Printers" name="default_printers">
+                    <field name="default_printer_ids" no_label="1">
+                        <tree name="Default Printers" editable="bottom">
+                            <field name="server_action_id"/>
+                            <field name="model_id"/>
+                            <field name="default_printer_id"/>
+                            <field name="iot_id" readonly="True"/>
+                            <field name="connected" readonly="True"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

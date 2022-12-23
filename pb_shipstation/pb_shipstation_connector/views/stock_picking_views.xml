@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="inherited_view_picking_create_label_form" model="ir.ui.view">
+        <field name="name">inherited.stock.picking.create.label.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="novobi_shipping_account.view_picking_create_label_form"/>
+        <field name="arch" type="xml">
+            <field name="requested_carrier" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="shipping_account_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="shipping_account_id" position="after">
+                <field name="shipstation_account_id"
+                       options="{'no_create': True, 'no_open': True}"
+                       required="1"/>
+                <field name="ss_carrier_name" required="1"/>
+                <field name="shipstation_account_delivery_carrier_ids" invisible="1"/>
+            </field>
+            <field name="is_mul_packages" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="default_stock_package_type_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="default_stock_package_type_id" position="after">
+                <field name="default_shipstation_stock_package_type_id" string="Package Type"
+                       attrs="{'invisible': ['|', ('ss_carrier_code', 'not in', ['fedex','shipstation', 'ups', 'stamps_com']), ('is_mul_packages', '=', True)],
+                                           'required': [('provider', 'in', ['ups','fedex','shipstation', 'stamps_com']), ('is_mul_packages', '=', False)]}"
+                       options="{'no_create': True, 'no_open': True}">
+                </field>
+            </field>
+            <field name="delivery_carrier_id" position="attributes">
+                <attribute name="domain">[('ss_account_id.id','=',shipstation_account_id), ('id', 'in',
+                    shipstation_account_delivery_carrier_ids), ('ss_carrier_code', '=', ss_carrier_name)]
+                </attribute>
+                <attribute name="attrs">{'required': [('provider', '!=', False)]}</attribute>
+                <attribute name="context">{'tree_view_ref': 'novobi_shipping_account.omni_stock_package_type_tree',
+                    'active_test': False}
+                </attribute>
+            </field>
+            <field name="shipping_date" position="after">
+                <field name="ss_carrier_code" invisible="1"/>
+                <field name="shipstation_usps_confirmation"
+                       attrs="{'invisible': [('ss_carrier_code', '!=', 'stamps_com')]}"/>
+                <field name="shipstation_fedex_confirmation"
+                       attrs="{'invisible': [('ss_carrier_code', '!=', 'fedex')]}"/>
+                <field name="shipstation_dhl_worldwide_confirmation"
+                       attrs="{'invisible': [('ss_carrier_code', '!=', 'dhl_express_worldwide')]}"/>
+                <field name="shipstation_ups_confirmation"
+                       attrs="{'invisible': [('ss_carrier_code', '!=', 'ups_walleted')]}"/>
+                <field name="shipstation_insurance"/>
+                <field name="shipstation_insurance_amount"
+                       attrs="{'invisible': ['|', ('shipstation_insurance', '=', False), ('shipstation_insurance', '=', 'none')]}"/>
+            </field>
+            <field name="stock_package_type_id" position="attributes">
+                <attribute name="domain">[]</attribute>
+            </field>
+            <field name="picking_package_ids" position="attributes">
+                <attribute name="context">
+                    {'default_stock_package_type_id': default_shipstation_stock_package_type_id,
+                    'default_weight': remaining_picking_package_weight,
+                    'default_handling_fee': handling_fee}
+                </attribute>
+            </field>
+            <xpath expr="//sheet/div[@class='row']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/div[@class='row']" position="after">
+                <group string="Other Shipping Options" name="other_options_shipstation">
+                    <group>
+                        <field name="is_residential_address" string="The destination is a residential address"/>
+                        <field name="shipping_non_machinable" string="This shipment is non-machinable"/>
+                    </group>
+                    <group>
+                        <field name="shipping_include_alcohol" string="This shipment includes alcohol"/>
+                        <field name="shipping_saturday_delivery" string="Saturday Delivery"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header//button[@name='open_create_label_form']" position="attributes">
+                <!-- allow creating label even if PICK is not done -->
+                <attribute name="attrs">{'invisible': ['|','|',('state', 'in', ('draft', 'cancel')),('is_create_label',
+                    '=', True),('picking_type_code','!=','outgoing')]}
+                </attribute>
+            </xpath>
+            <!-- hide confusable buttons -->
+            <xpath expr="//header//button[@name='action_open_label_layout']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//header//button[@name='do_print_picking']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- remove confusable "print label" actions -->
+    <function model="ir.actions.server" name="unlink_action"
+              eval="[ref('label_printing.model_stock_picking_form_action_print_shipping_label_manually')]"/>
+    <function model="ir.actions.server" name="unlink_action"
+              eval="[ref('novobi_shipping_account.action_report_shipping_label')]"/>
+</odoo>

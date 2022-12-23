@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_resource_composer_amazon_form" model="ir.ui.view">
+        <field name="name">import.resource.operation.amazon.form</field>
+        <field name="model">import.resource.operation</field>
+        <field name="inherit_id" ref="multichannel_product.view_import_resource_composer_form"/>
+        <field name="arch" type="xml">
+            <group name="auto_create_master" position="attributes">
+                <attribute name="attrs">{'invisible': [('platform', '=', 'amazon')]}</attribute>
+            </group>
+            <group name="auto_create_master" position="after">
+                <group name="auto_create_master_amazon" attrs="{'invisible': [('platform', '!=', 'amazon')]}">
+                    <label for="is_auto_create_master" string="Auto Create Product If not found?"/>
+                    <div>
+                        <field name="is_auto_create_master" nolabel="1"/>
+                        <div class="text-muted">
+                            Automatically create a new product as a single-variation
+                        </div>
+                    </div>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

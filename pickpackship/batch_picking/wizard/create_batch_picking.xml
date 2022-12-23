@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_batch_picking_creation_form" model="ir.ui.view">
+        <field name="name">Create Batch Picking</field>
+        <field name="model">create.batch.picking</field>
+        <field name="arch" type="xml">
+            <form string="Create Batch Picking">
+                <group>
+                    <group>
+                        <field name="batch_picking_template_id"/>
+                        <label for="is_save_batch_picking_template" string="Save as new template"/>
+                        <div class="o_row">
+                            <field name="is_save_batch_picking_template"/>
+                            <field name="name" placeholder="Template Name"/>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="process_type"/>
+                        <div style="color: grey;">
+                            <span attrs="{'invisible': [('process_type', '!=', 'pick_then_sort')]}">
+                                The picking and sorting processes are separated. The packer will be prompted to sort each sales order individually.
+                            </span>
+                            <span attrs="{'invisible': [('process_type', '!=', 'pick_and_sort')]}">
+                                The picking and sorting processes are combined into one. When a batch is completed, orders are ready to ship.
+                            </span>
+                            <span attrs="{'invisible': [('process_type', '!=', 'pick_for_single_item_order')]}">
+                                Simplified process for picking and packing for single item orders.
+                            </span>
+                        </div>
+                    </group>
+                </group>
+                <separator string="Order Criteria" style="font-weight: bold;font-size:20px;"/>
+                <group>
+                    <group>
+                        <field name="warehouse_id"/>
+                        <label for="order_date_from" string="Order Date"/>
+                        <div class="o_row">
+                            <field name="order_date_from" widget="daterange" options='{"related_end_date": "order_date_to"}'/>
+                            <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                            <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('order_date_from', '=', False), ('order_date_to', '=', False)]}"/>
+                            <field name="order_date_to" widget="daterange" options='{"related_start_date": "order_date_from"}'/>
+                        </div>
+                        <label for="delivery_date_from" string="Delivery Date"/>
+                        <div class="o_row">
+                            <field name="delivery_date_from" widget="daterange" options='{"related_end_date": "delivery_date_to"}'/>
+                            <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                            <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('delivery_date_from', '=', False), ('delivery_date_to', '=', False)]}"/>
+                            <field name="delivery_date_to" widget="daterange" options='{"related_start_date": "delivery_date_from"}'/>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="sales_team_id"/>
+                        <field name="delivery_carrier_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <separator string="Order Item Criteria" style="font-weight: bold;font-size:20px;"/>
+                <group>
+                    <group>
+                        <field name="max_order_line_to_pick" attrs="{'readonly': [('process_type', '=', 'pick_for_single_item_order')]}" force_save="1"/>
+                    </group>
+                    <group attrs="{'invisible': [('max_order_line_to_pick', '!=', 1)]}">
+                        <field name="product_id"/>
+                        <field name="max_ordered_qty"/>
+                    </group>
+                </group>
+                <separator string="Volume" style="font-weight: bold;font-size:20px;"/>
+                <group>
+                    <group>
+                        <field name="max_number_of_orders_in_batch"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="create_batch_picking" string="Selects" type="object"
+                        class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_batch_picking_creation" model="ir.actions.act_window">
+        <field name="name">Create Batch Picking</field>
+        <field name="res_model">create.batch.picking</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_batch_picking_creation_form"/>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_batch_picking_creation"
+          action="action_batch_picking_creation"
+          name="Create Batch Picking"
+          parent="stock.menu_stock_warehouse_mgmt"
+          sequence="31"/>
+</odoo>

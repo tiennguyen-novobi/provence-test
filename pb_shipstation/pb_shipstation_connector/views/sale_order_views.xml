@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<!--    <record id="view_order_form_shipstation" model="ir.ui.view">-->
+<!--        <field name="name">sale.order.form.shipstation</field>-->
+<!--        <field name="model">sale.order</field>-->
+<!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            &lt;!&ndash; Replace "Confirm" button &ndash;&gt;-->
+<!--            <xpath expr="//button[@name='action_confirm'][1]" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//button[@name='action_confirm'][2]" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//button[@name='action_confirm'][1]" position="after">-->
+<!--                <button name="action_confirm_pb" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['sent'])]}"/>-->
+<!--                <button name="action_confirm_pb" string="Confirm" class="btn-secondary" type="object" attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_order_form_pb_shipstation" model="ir.ui.view">
+        <field name="name">sale.order.form.pb.shipstation</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="multichannel_order.view_order_form_omni_manage_channel_inherit"/>
+        <field name="arch" type="xml">
+            <field name="channel_id" position="after">
+                <field name="shipstation_account_id_from_channel_id" invisible="1"/>
+            </field>
+            <button name="export_to_shipstation" position="attributes">
+                <attribute name="attrs">{"invisible": ['|', ('shipstation_account_id_from_channel_id', '!=', False), ('state', '!=', 'sale')]}
+                </attribute>
+            </button>
+            <field name="shipstation_store_id" position="after">
+                <field name="ship_by_on_shipstation"/>
+            </field>
+        </field>
+    </record>
+</odoo>

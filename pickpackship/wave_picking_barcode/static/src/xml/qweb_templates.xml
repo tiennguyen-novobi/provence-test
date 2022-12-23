@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="stock_barcode_header_widget">
+        <div class="o_barcode_header navbar navbar-expand navbar-dark">
+            <nav class="navbar-nav mr-auto">
+                <button class="nav-link btn o_exit mr-4"><i class="fa fa-chevron-left"/></button>
+                <!-- keep same look and feel when in settings mode so users are less likely to get confused -->
+                <button class="nav-link btn o_close o_hidden mr-4"><i class="fa fa-chevron-left"/></button>
+                <span class="o_title navbar-text text-white" t-esc="widget.title"/>
+            </nav>
+            <nav class="navbar-nav">
+                <button class="nav-link btn o_show_information mr-4"><i class="fa fa-info-circle"/></button>
+                <button class="nav-link btn o_show_settings"><i class="fa fa-bars"/></button>
+                <button class="nav-link btn o_close o_hidden"><i class="fa fa-times"/></button>
+            </nav>
+        </div>
+    </t>
+
+    <!--Order Wave Picking-->
+    <t t-name="order_wave_picking_lines_widget">
+        <div class="o_barcode_message d-flex flex-column justify-content-center align-items-center bg-800">
+            <div class="o_barcode_pic position-relative text-center mt-2 mb-1">
+                <i class="fa fa-5x mx-auto fa-exclamation-triangle text-white d-none"/>
+                <img class="o_barcode_icon" src="/stock_barcode/static/img/barcode.svg" alt="Barcode" height="40px"/>
+            </div>
+            <div class="mb-3">
+                <span class="o_hidden o_scan_message o_scan_message_scan_location">Scan location</span>
+                <span class="o_hidden o_scan_message o_scan_message_scan_product">Scan product</span>
+                <span class="o_hidden o_scan_message o_scan_message_scan_serial">Scan serial number</span>
+                <span class="o_hidden o_scan_message o_scan_message_scan_bin">Scan bin</span>
+                <span class="o_hidden o_scan_message o_scan_message_scan_more">Scan a product, or a location</span>
+            </div>
+        </div>
+        <div class="o_barcode_lines_header alert mb-0" />
+        <div class="o_barcode_lines list-group flex-grow-1 d-block bg-100 position-relative" />
+        <div class="o_barcode_control d-flex">
+            <button class="btn btn-secondary text-uppercase o_previous_location" disabled="1"><i class="fa fa-arrow-left mr-1"/> Previous</button>
+            <button class="btn btn-secondary text-uppercase o_next_location" disabled="1"> Next <i class="fa fa-arrow-right mr-1"/> </button>
+        </div>
+        <div class="o_barcode_control d-flex">
+            <button class="btn btn-secondary text-uppercase o_send_alert" disabled="1"><i class="fa fa-bell mr-1"/> Send Alert</button>
+            <button class="btn btn-secondary text-uppercase o_validate"><i class="fa fa-check mr-1"/> Validate</button>
+        </div>
+    </t>
+
+    <t t-name="order_wave_picking_lines">
+        <t t-foreach="locations" t-as="location">
+            <t t-set="location_content" t-value="datas[location['id']]['move_lines']"/>
+            <div class="o_barcode_location o_hidden" t-att-data-location-id="location['id']">
+                <div class="o_barcode_lines_header alert mb-0">
+                    <div class="d-inline-block font-weight-bold text-right">
+                        <span class="o_barcode_location_label">From: </span>
+                        <span class="o_barcode_summary_location_src" t-esc="location['name']"/>
+                    </div>
+                </div>
+                <t t-call="order_wave_picking_location_content"/>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="order_wave_picking_location_content">
+        <t t-foreach="location_content" t-as="line">
+            <div class="o_barcode_line list-group-item d-flex flex-row flex-nowrap">
+                <t t-call="order_wave_picking.move_line"/>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="order_wave_picking.move_line">
+        <div class="o_barcode_line_details flex-grow-1 flex-column flex-nowrap">
+            <div class="flex-grow-1 flex-column flex-nowrap">
+                <i class="o_edit fa fa-2x fa-pencil float-right"
+                   t-att-data-product-name="line['product']['name']"
+                   t-att-data-move-line-id="line['move_line_id']"
+                   t-att-data-qty-done="line['qty_done']"
+                   t-att-data-reserved-qty="line['reserved_qty']"
+                   t-att-data-uom="line['product']['uom']"
+                   t-att-data-location-id="line['location_id']"
+                />
+            </div>
+            <div class="o_barcode_line_title pb-1">
+                <i class="fa fa-fw fa-tags"/>
+                <span class="product-label"><t t-esc="line['product']['name']"></t></span>
+            </div>
+            <div>
+                <i class="fa fa-fw fa-cube"/>
+                <span t-attf-class="o_barcode_scanner_qty text-monospace badge #{' '}">
+                    <span class="qty-done text-left" t-esc="line['qty_done']"/>
+                    <input type="hidden"
+                           t-att-value="line['qty_done']" name="qty_done"
+                           t-att-data-reserved-qty="line['reserved_qty']"
+                           t-att-data-order-id="line['picking']['sale_id']"
+                           t-att-data-product-id="line['product']['id']"
+                           t-att-data-lot-name="line['lot_name']"
+                           t-att-data-move-line-id="line['move_line_id']"
+                           class="qty-done d-inline-block text-left"/>
+                    <span t-esc="'/ ' + line['reserved_qty']" t-if="line['product']['tracking'] != 'serial'"/>
+
+                </span>
+                <span t-esc="line['product']['uom']"/>
+            </div>
+            <div t-if="line['lot_name']">
+                <i class="fa fa-barcode"/>
+                <span t-esc="line['lot_name']"/>
+            </div>
+            <div class="sale_name">
+                <i class="fa fa-fw fa-book"/>
+                <span t-esc="line['picking']['origin']"/>
+            </div>
+            <div class="bin-area">
+                <t t-set="toteBins" t-value="orderToteBins[line['picking']['sale_id']]"/>
+                <t t-if="toteBins">
+                    <t t-foreach="toteBins" t-as="toteBin">
+                        <i class="fa fa-fw fa-shopping-basket bin-icon"/>
+                        <span t-esc="toteBin"/>
+                    </t>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <!-- Tote Wave Picking -->
+    <t t-name="tote_wave_picking_lines_widget">
+        <div class="o_barcode_message d-flex flex-column justify-content-center align-items-center bg-800">
+            <div class="o_barcode_pic position-relative text-center mt-2 mb-1">
+                <i class="fa fa-5x mx-auto fa-exclamation-triangle text-white d-none"/>
+                <img class="o_barcode_icon" src="/stock_barcode/static/img/barcode.svg" alt="Barcode" height="40px"/>
+            </div>
+            <div class="mb-3">
+                <span class="o_hidden o_scan_message o_scan_message_scan_location">Scan location</span>
+                <span class="o_hidden o_scan_message o_scan_message_scan_product">Scan product</span>
+                <span class="o_hidden o_scan_message o_scan_message_scan_more">Scan a location, or a product</span>
+            </div>
+        </div>
+        <div class="o_barcode_lines_header alert mb-0"></div>
+        <div class="o_barcode_lines list-group flex-grow-1 d-block bg-100 position-relative"></div>
+        <div class="o_barcode_control d-flex">
+            <button class="btn btn-secondary text-uppercase o_send_alert" disabled="1"><i class="fa fa-bell mr-1"/> Send Alert</button>
+        </div>
+        <div class="o_barcode_control d-flex">
+            <button class="btn btn-secondary text-uppercase o_previous_location" disabled="1"><i class="fa fa-arrow-left mr-1"/> Previous</button>
+            <button class="btn btn-secondary text-uppercase o_next_location" disabled="1"> Next <i class="fa fa-arrow-right mr-1"/> </button>
+        </div>
+        <div class="o_barcode_control d-flex">
+            <button class="btn btn-secondary text-uppercase o_partially_validate "><i class="fa fa-check mr-1"/> Partially Validate</button>
+            <button class="btn btn-secondary text-uppercase o_validate"><i class="fa fa-check mr-1"/> Validate</button>
+        </div>
+    </t>
+    <t t-name="tote_wave_picking_lines">
+        <t t-foreach="locations" t-as="location">
+            <t t-set="location_content" t-value="_.values(datas[location['id']]['products'])"/>
+            <div class="o_barcode_location o_hidden" t-att-data-location-id="location['id']">
+                <div class="o_barcode_lines_header alert mb-0">
+                    <div class="d-inline-block font-weight-bold text-right">
+                        <span class="o_barcode_location_label">From: </span>
+                        <span class="o_barcode_summary_location_src" t-esc="location['name']"/>
+                    </div>
+                </div>
+                <t t-call="tote_wave_picking_location_content"/>
+            </div>
+        </t>
+    </t>
+    <t t-name="tote_wave_picking_location_content">
+        <t t-foreach="location_content" t-as="line">
+            <div class="o_barcode_line list-group-item d-flex flex-row flex-nowrap">
+                <t t-call="tote_wave_picking_line"/>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="tote_wave_picking_line">
+        <div class="o_barcode_line_details flex-grow-1 flex-column flex-nowrap">
+            <div class="o_barcode_line_title pb-1">
+                <i class="fa fa-fw fa-tags"/>
+                <span class="product-label"><t t-esc="line['name']"></t></span>
+            </div>
+            <div>
+                <i class="fa fa-fw fa-cube"/>
+                <span t-attf-class="o_barcode_scanner_qty text-monospace badge #{' '}">
+                    <input type="hidden"
+                           name="qty_done"
+                           t-att-value="line['qty_done']"
+                           t-att-data-qty-done="line['qty_done']"
+                           t-att-data-demand-qty="line['demand_qty']"
+                           t-att-data-product-id="line['id']"
+                           class="qty-done d-inline-block text-left"/>
+                    <span class="qty-done text-left" t-esc="line['qty_done']"/>
+                    <span t-esc="'/ ' + line['demand_qty']"/>
+                </span>
+                <span t-esc="line['uom']"/>
+            </div>
+        </div>
+
+        <div class="o_barcode_line_actions d-flex align-items-center pl-4">
+            <a class="o_edit text-muted" title="Edit"
+                   t-att-data-product-id="line['id']"
+                   t-att-data-product-name="line['name']"
+                   t-att-data-qty-done="line['qty_done']"
+                   t-att-data-reserved-qty="line['demand_qty']"
+                   t-att-data-uom="line['uom']"
+                   t-att-data-location-id="line['location_id']">
+               <i class="fa fa-2x fa-pencil"/>
+            </a>
+        </div>
+    </t>
+
+    <!--Sounds-->
+    <t t-name="sounds_widget">
+        <div>
+            <audio class="error_sound"
+               src="/wave_picking_barcode/static/src/sounds/error.wav"
+                   autostart="0" preload ="none"/>
+            <audio class="notify_sound"
+                   src="/wave_picking_barcode/static/src/sounds/bell.wav"
+                   autostart="0" preload ="none"/>
+        </div>
+    </t>
+
+
+   <!-- Change Bin Warning template    -->
+    <t t-name="change_bin_warning">
+        <div class="row">
+          <div class="col-lg-12">
+              <p>Do you want to add a new bin <strong t-esc="toteBinBarcode" /> to order <strong t-esc="order.name"/> ?</p>
+          </div>
+        </div>
+    </t>
+
+    <t t-name="wave_barcode_confirmation">
+        <div class="row">
+            <div class="col-lg-12">
+                <p t-esc="message"/>
+            </div>
+        </div>
+    </t>
+
+</templates>

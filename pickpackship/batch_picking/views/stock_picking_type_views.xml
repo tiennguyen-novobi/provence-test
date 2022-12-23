@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_picking_type_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.type.inherit</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='show_operations']" position="after">
+                <field name="is_use_operation_type_for_pickings"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

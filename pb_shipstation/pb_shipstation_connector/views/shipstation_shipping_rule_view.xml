@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="shipstation_shipping_rule_action" model="ir.actions.act_window">
+        <field name="name">Shipping Rules</field>
+        <field name="res_model">shipstation.shipping.rule</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="shipstation_shipping_rule_view_tree" model="ir.ui.view">
+        <field name="name">shipstation.shipping.rule.view.tree</field>
+        <field name="model">shipstation.shipping.rule</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" create="1" delete="1">
+                <field name="sequence" widget="handle"/>
+                <field name="product_weight_oz"/>
+                <field name="product_weight_kg"/>
+                <field name="product_qty_min"/>
+                <field name="product_qty_max"/>
+                <field name="pkg_weight_min"/>
+                <field name="pkg_weight_max"/>
+                <field name="pkg_length"/>
+                <field name="pkg_width"/>
+                <field name="pkg_height"/>
+                <field name="package_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="menu_shipstation_shipping_rule_tree" name="Shipping Rules"
+              parent="pb_shipstation_connector.menu_config_shipstation" sequence="25" action="shipstation_shipping_rule_action"/>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="model_stock_picking_form_action_print_product_label_manually" model="ir.actions.server">
+        <field name="name">Print Product Labels</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_view_types">form</field>
+        <field name="binding_type">report</field>
+        <field name="state">code</field>
+        <field name="code">
+server_action = env.ref('label_printing.model_stock_picking_form_action_print_product_label_manually')
+action = records.with_context(printing_server_action_id=server_action.id).do_print_product_labels()
+        </field>
+    </record>
+    <record id="model_stock_picking_form_action_print_shipping_label_manually" model="ir.actions.server">
+        <field name="name">Print Shipping Labels</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_view_types">form</field>
+        <field name="binding_type">report</field>
+        <field name="state">code</field>
+        <field name="code">
+server_action = env.ref('label_printing.model_stock_picking_form_action_print_shipping_label_manually')
+action = records.with_context(printing_server_action_id=server_action.id).do_print_shipping_labels()
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="printing_service" model="ir.config_parameter">
+        <field name="key">printing.service</field>
+        <field name="value"></field>
+    </record>
+    <record id="printing_label_width" model="ir.config_parameter">
+        <field name="key">printing.label.width</field>
+        <field name="value">4</field>
+    </record>
+    <record id="printing_label_height" model="ir.config_parameter">
+        <field name="key">printing.label.height</field>
+        <field name="value">6</field>
+    </record>
+    <record id="printing_dpi" model="ir.config_parameter">
+        <field name="key">printing.dpi</field>
+        <field name="value">300</field>
+    </record>
+</odoo>

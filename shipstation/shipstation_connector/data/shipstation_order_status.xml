@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo noupdate="1">
+    <record id="shipstation_order_status_awaiting_payment" model="order.status.channel">
+        <field name="name">awaiting_payment</field>
+        <field name="title">Awaiting Payment</field>
+        <field name="platform">shipstation</field>
+    </record>
+    <record id="shipstation_order_status_awaiting_shipment" model="order.status.channel">
+        <field name="name">awaiting_shipment</field>
+        <field name="title">Awaiting Shipment</field>
+        <field name="platform">shipstation</field>
+    </record>
+    <record id="shipstation_order_status_shipped" model="order.status.channel">
+        <field name="name">shipped</field>
+        <field name="title">Shipped</field>
+        <field name="platform">shipstation</field>
+    </record>
+    <record id="shipstation_order_status_on_hold" model="order.status.channel">
+        <field name="name">on_hold</field>
+        <field name="title">On Hold</field>
+        <field name="platform">shipstation</field>
+        <field name="active" eval="False"/>
+    </record>
+    <record id="shipstation_order_status_cancelled" model="order.status.channel">
+        <field name="name">cancelled</field>
+        <field name="title">Cancelled</field>
+        <field name="platform">shipstation</field>
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

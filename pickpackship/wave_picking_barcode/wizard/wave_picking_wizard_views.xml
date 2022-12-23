@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wave_picking_creation_form_view" model="ir.ui.view">
+        <field name="name">wave.picking.wizard.form</field>
+        <field name="model">wave.picking.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Batch Creation">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="wave_type" required="1" widget="radio"/>
+                            <field name="number_of_orders_per_wave" required="1"/>
+                            <field name="warehouse_id" required="1" readonly="1" groups="stock.group_stock_multi_warehouses"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Confirm" name="wave_creation_confirm" type="object" class="oe_highlight" style="margin-right:12px"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wave_picking_creation" model="ir.actions.act_window">
+        <field name="name">Batch Creation</field>
+        <field name="res_model">wave.picking.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="domain"></field>
+        <field name="view_id" ref="wave_picking_creation_form_view"/>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

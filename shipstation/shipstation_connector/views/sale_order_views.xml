@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="shipstation_export_sale_order_form_view" model="ir.ui.view">
+        <field name="name">shipstation.export.sale.order.form.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="multichannel_order.view_order_form_omni_manage_channel_inherit"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="export_to_shipstation"
+                        string="Export to ShipStation"
+                        type="object"
+                        attrs="{'invisible': [('state', '!=', 'sale')]}"/>
+            </header>
+            <button name="action_draft" position="before">
+                <button name="cancel_on_shipstation"
+                        string="Cancel on ShipStation"
+                        type="object"
+                        confirm="Do you want to cancel this order on ShipStation ?"
+                        attrs="{'invisible': ['|',('platform', '=', 'shipstation'),('id_on_shipstation','=',0)]}"/>
+            </button>
+            <notebook position="inside">
+                <page name="shipstation_info" string="ShipStation Info" attrs="{'invisible': [('id_on_shipstation', '=', 0)]}">
+                    <group>
+                        <field name="id_on_shipstation" invisible="1"/>
+                        <field name="shipstation_account_id" string="ShipStation Account"/>
+                        <field name="shipstation_store_id" string="Export to Store" widget="channel_many2one" options="{'no_open':True,'no_create':True}"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="view_store_sales_order_filter" model="ir.ui.view">
+        <field name="name">store.sale.order.shipstation.export.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="multichannel_order.view_store_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <filter name="activities_overdue" position="before">
+                <filter string="To Export to ShipStation"
+                        domain="[('id_on_shipstation','=',False)]" name="to_export_shipstation"/>
+                <filter string="Exported to ShipStation"
+                        domain="[('id_on_shipstation','!=',False)]" name="exported_shipstation"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="search_view_sales_orders" model="ir.ui.view">
+        <field name="name">sale.order.shipstation.export.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="multichannel_order.search_view_sales_orders"/>
+        <field name="arch" type="xml">
+           <filter name="my_sale_orders_filter" position="before">
+                <filter string="To Export to ShipStation"
+                        domain="[('id_on_shipstation','=',False)]" name="to_export_shipstation"/>
+                <filter string="Exported to ShipStation"
+                        domain="[('id_on_shipstation','!=',False)]" name="exported_shipstation"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="multi_shipstation_export_sale_order_action" model="ir.actions.server">
+        <field name="name">Export to ShipStation</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.multi_export_to_shipsation()</field>
+    </record>
+</odoo>

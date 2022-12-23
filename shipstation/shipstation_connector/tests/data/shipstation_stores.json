@@ -1,0 +1,40 @@
+[
+  {
+    "storeId": 22766,
+    "storeName": "ShipStation Manual Store",
+    "marketplaceId": 0,
+    "marketplaceName": "ShipStation",
+    "accountName": null,
+    "email": null,
+    "integrationUrl": null,
+    "active": true,
+    "companyName": "",
+    "phone": "",
+    "publicEmail": "testemail@email.com",
+    "website": "",
+    "refreshDate": "2014-12-03T11:46:11.283",
+    "lastRefreshAttempt": "2014-12-03T11:46:53.433",
+    "createDate": "2014-07-25T11:05:55.307",
+    "modifyDate": "2014-11-12T08:45:20.55",
+    "autoRefresh": false
+  },
+  {
+    "storeId": 25748,
+    "storeName": "Ashley's Test WooCommerce",
+    "marketplaceId": 36,
+    "marketplaceName": "WooCommerce",
+    "accountName": null,
+    "email": null,
+    "integrationUrl": "http://shipstation.wpengine.com/",
+    "active": true,
+    "companyName": "",
+    "phone": "",
+    "publicEmail": "",
+    "website": "",
+    "refreshDate": "2014-11-26T22:28:14.07",
+    "lastRefreshAttempt": "2014-11-26T14:28:14.07",
+    "createDate": "2014-11-10T08:53:48.077",
+    "modifyDate": "2014-12-03T14:53:50.557",
+    "autoRefresh": true
+  }
+]

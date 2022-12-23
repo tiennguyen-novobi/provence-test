@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="amazon_order_process_rule_form_view" model="ir.ui.view">
+        <field name="name">amazon.order.process.rule.form</field>
+        <field name="model">order.process.rule</field>
+        <field name="inherit_id" ref="multichannel_order.order_process_rule_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_status_channel_ids']/.." position="before">
+                <group attrs="{'invisible': [('platform', '!=', 'amazon')]}">
+                    <field name="amazon_fulfillment_method_ids" 
+                            string="Apply for"
+                            widget="custom_many2many_checkboxes"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

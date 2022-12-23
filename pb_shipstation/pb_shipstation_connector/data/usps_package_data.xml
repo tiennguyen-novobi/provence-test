@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="pb_shipstation_connector.stamps_com_package" model="stock.package.type">
+            <field name="name">Package</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">package</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_flat_rate_envelope" model="stock.package.type">
+            <field name="name">Flat Rate Envelope</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">flat_rate_envelope</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_flat_rate_legal_envelope" model="stock.package.type">
+            <field name="name">Flat Rate Legal Envelope</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">flat_rate_legal_envelope</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_flat_rate_padded_envelope" model="stock.package.type">
+            <field name="name">Flat Rate Padded Envelope</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">flat_rate_padded_envelope</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_large_envelope_or_flat" model="stock.package.type">
+            <field name="name">Large Envelope or Flat</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">large_envelope_or_flat</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_large_flat_rate_box" model="stock.package.type">
+            <field name="name">Large Flat Rate Box</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">large_flat_rate_box</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_large_package" model="stock.package.type">
+            <field name="name">Large Package (any side > 12")</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">large_package</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_letter" model="stock.package.type">
+            <field name="name">Letter</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">letter</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_medium_flat_rate_box" model="stock.package.type">
+            <field name="name">Medium Flat Rate Box</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">medium_flat_rate_box</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_non_rectangular" model="stock.package.type">
+            <field name="name">Non Rectangular Package</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">non_rectangular</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_regional_rate_box_a" model="stock.package.type">
+            <field name="name">Regional Rate Box A</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">regional_rate_box_a</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_regional_rate_box_b" model="stock.package.type">
+            <field name="name">Regional Rate Box B</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">regional_rate_box_b</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_small_flat_rate_box" model="stock.package.type">
+            <field name="name">Small Flat Rate Box</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">small_flat_rate_box</field>
+        </record>
+        <record id="pb_shipstation_connector.stamps_com_thick_envelope" model="stock.package.type">
+            <field name="name">Thick Envelope</field>
+            <field name="package_carrier_type">stamps_com</field>
+            <field name="shipper_package_code">thick_envelope</field>
+        </record>
+    </data>
+</odoo>

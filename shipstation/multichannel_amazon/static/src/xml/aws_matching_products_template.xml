@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <div t-name="AWSMatchingProducts.buttons">
+        <button type="button" class="btn btn-primary btn-list-product" style="display:none">
+            Create Listings
+        </button>
+        <button type="button" class="btn btn-primary btn-select-product" style="display:none">
+            Select
+        </button>
+        <button type="button" class="btn btn-secondary btn-cancel">
+            Cancel
+        </button>
+    </div>
+    <t t-name="AWSMatchingProducts.SelectOptionsForParent">
+        <t t-if="widget.mode == 'list-product'">
+            <select class="custom-select select-product select-parent"
+                t-att-data-parent-asin="product['ASIN']">
+                <option value="0">Select Odoo Variant</option>
+                <t t-foreach="widget.product_tmpl.product_variants" t-as="product_variant">
+                    <option t-att-value="product_variant.id"><t t-esc="product_variant.display_name"/></option>
+                </t>
+            </select>
+        </t>
+        <t t-else="">
+            <input class="custom-checkbox select-product select-parent"
+                   t-att-data-parent-asin="product['ASIN']"
+                   t-att-value="product['ASIN']"
+                   name="select-product"
+                   type="checkbox" />
+        </t>
+    </t>
+    <t t-name="AWSMatchingProducts.SelectOptionsForVariant">
+        <t t-if="widget.mode == 'list-product'">
+            <select class="form-control custom-select select-product select-variant"
+                t-att-data-parent-asin="product['ASIN']"
+                t-att-data-variant-asin="variant['ASIN']">
+                <option value="0">Select Odoo Variant</option>
+                <t t-foreach="widget.product_tmpl.product_variants" t-as="product_variant">
+                    <option t-att-value="product_variant.id"><t t-esc="product_variant.display_name"/></option>
+                </t>
+            </select>
+        </t>
+        <t t-else="">
+            <input class="custom-checkbox select-product select-variant"
+                   t-att-data-parent-asin="product['ASIN']"
+                   t-att-data-variant-asin="variant['ASIN']"
+                   t-att-value="variant['ASIN']"
+                   name="select-product"
+                   type="checkbox" />
+        </t>
+    </t>
+    <t t-name="AWSMatchingProducts">
+        <div class="matching-products-dialog">
+            <section class="top">
+                <div class="top-top mb-3">
+                    <div class="row">
+                        <div class="col-3 col-md-2">
+                            <t t-if="widget.product_tmpl.id">
+                                <img class="img img-fluid"
+                                 t-attf-src="/web/image?model=product.template&amp;id=#{widget.product_tmpl.id}&amp;field=image_1920"/>
+                            </t>
+                            <t t-elif="widget.channel_variant_id">
+                                <img class="img img-fluid"
+                                 t-attf-src="/web/image?model=product.channel.variant&amp;id=#{widget.channel_variant_id}&amp;field=image_variant_1920"/>
+                            </t>
+                            <t t-else="">
+                                <img class="img img-fluid" src="/web/static/src/img/placeholder.png"/>
+                            </t>
+                        </div>
+                        <div class="col-9 col-md-10">
+                            <h2 t-esc="widget.product_tmpl.name"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-bottom">
+                    <div class="row">
+                        <div class="flex-grow-1 px-4">
+                            <style>
+                                ::placeholder {
+                                    font-style: italic;
+                                }
+                            </style>
+                            <input type="text"
+                                   id="input-query"
+                                   class="form-control" placeholder="Product name, UPC, EAN, ISBN or ASIN"/>
+                        </div>
+                        <div class="px-4">
+                            <button class="btn btn-primary" id="btn-find-product">
+                                  Find product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="bottom mt-5">
+                <t t-call="AWSMatchingProductsResult"/>
+            </section>
+            <section class="bottom-loader" style="display:none">
+                <div>
+                    <div class="loader"/>
+                </div>
+            </section>
+        </div>
+    </t>
+    <t t-name="AWSMatchingProductsResult">
+        <t t-if="widget.products.length">
+            <p class="mt-3 px-4">Displaying <t t-esc="widget.products.length"/> result(s)</p>
+            <div>
+                <div class="bottom-top" />
+                <div class="bottom-bottom matching-products-result mx-4">
+                    <t t-foreach="widget.products" t-as="product">
+                        <div class="parent-row">
+                            <div class="row m-2">
+                                <div class="row col-12 col-md-8 parent-row-left">
+                                    <div class="col-3 col-md-2 align-self-center text-center">
+                                        <img class="img img-fluid" t-att-src="product['SmallImage']"/>
+                                    </div>
+                                    <div class="col-9 col-md-10 title">
+                                        <span><t t-esc="product['Title']"/></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 my-3 d-md-none"/>
+                                <div class="col-12 col-md-4 parent-row-right my-auto ml-auto">
+                                    <t t-if="product['ChildASIN'].length">
+                                        <p class="show-variants-link show text-right"
+                                           t-att-data-parent-asin="product['ASIN']">
+                                            <a class="text-link pr-1">Show Amazon Variants</a>
+                                            <span class="fa fa-caret-down"/>
+                                        </p>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-call="AWSMatchingProducts.SelectOptionsForParent"/>
+                                    </t>
+                                </div>
+                                <div class="col-12 my-3 d-md-none"/>
+                            </div>
+                            <section t-if="product['ChildASIN'].length"
+                                     class="variant-section"
+                                     t-att-data-parent-asin="product['ASIN']"
+                                     data-loaded="false"
+                                     style="display:none">
+                                <div class="row child-row" style="height:200px">
+                                    <div class="loader" style="position: relative; top: 20%; left: 45%;"/>
+                                </div>
+                            </section>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <h3 class="text-center my-5">No Match Found</h3>
+        </t>
+    </t>
+    <t t-name="AWSMatchingVariantsResult">
+        <t t-foreach="product['Variants']" t-as="variant">
+            <div class="child-row">
+                <div class="row m-2">
+                    <div class="col-md-8 row no-gutters px-0 child-row-left">
+                        <div class="offset-3 offset-md-2 col-md-10 row">
+                            <div class="col-3 align-self-center text-center">
+                                <img class="img img-fluid" t-att-src="variant['SmallImage']"/>
+                            </div>
+                            <div class="col-9 title">
+                                <span><t t-esc="variant['Title']"/></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 my-3 d-md-none"/>
+                    <div class="offset-3 offset-md-0 col-md-4 child-row-right my-auto ml-md-auto">
+                        <t t-call="AWSMatchingProducts.SelectOptionsForVariant"/>
+                    </div>
+                    <div class="col-12 my-3 d-md-none"/>
+                </div>
+            </div>
+        </t>
+    </t>
+</templates>

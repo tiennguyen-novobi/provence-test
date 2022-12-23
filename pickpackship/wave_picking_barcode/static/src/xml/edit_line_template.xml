@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="edit_line_widget">
+        <div class="o_barcode_message d-flex flex-column justify-content-center align-items-center bg-800">
+            <div class="position-relative text-center mt-4 mb-1 o_hidden">
+                <span class="o_stock_barcode_laser"/>
+                <i class="fa fa-5x mx-auto fa-exclamation-triangle text-white"/>
+            </div>
+            <!--<span class="o_scan_message"><t t-esc="widget.title"/></span>-->
+        </div>
+        <div class="o_barcode_lines_header alert mb-0"></div>
+        <div class="o_content o_barcode_client_action"></div>
+        <div class="o_barcode_control d-flex">
+            <button class="btn btn-secondary text-uppercase o_discard"><i class="fa fa-times mr-1"/> Discard</button>
+            <button class="btn btn-primary text-uppercase o_confirm"><i class="fa fa-check mr-1"/> Confirm</button>
+        </div>
+    </t>
+    <t t-name="edit_line_content">
+        <div class="o_barcode_generic_view">
+            <div class="o_view_controller">
+                <div class="o_form_view o_barcode_line_form o_form_nosheet o_form_editable o_xxs_form_view">
+                    <div class="row mt-5 mb-4">
+                        <div class="col-12 d-flex align-items-baseline">
+                            <i class="fa fa-fw fa-lg fa-tags mr-3" title="Product"/>
+                            <a class="o_form_uri o_field_widget o_readonly_modifier o_required_modifier"
+                                       t-attf-href="#id={{data['productID']}}&amp;model=product.product"
+                                       name="product_id" id="o_field_input_129"><t t-esc="data['productName']"></t></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 my-2 d-flex align-items-baseline">
+                            <i class="fa fa-fw fa-lg fa-cube mr-3" title="Quantity"/>
+                            <input class="o_field_float o_field_number o_field_widget o_input"
+                                           style="width:50%"
+                                           placeholder="" type="number"
+                                           name="qty-done"
+                                           t-att-value="data['qtyDone']"
+                                           t-att-data-qty-done="data['qtyDone']"
+                                           t-att-data-reserved-qty="data['reservedQty']"
+                                           t-att-data-product-id="data['productID']"/>
+                        </div>
+
+
+                    </div>
+                    <!--<table class="o_group o_inner_group">-->
+                        <!--<tbody>-->
+                            <!--<tr>-->
+                                <!--<td class="o_td_label">-->
+                                    <!--<label class="o_form_label o_readonly_modifier o_required_modifier">Product</label>-->
+                                <!--</td>-->
+                                <!--<td style="width: 100%;">-->
+                                    <!--<a class="o_form_uri o_field_widget o_readonly_modifier o_required_modifier"-->
+                                       <!--t-attf-href="#id={{data['productID']}}&amp;model=product.product"-->
+                                       <!--name="product_id" id="o_field_input_129"><t t-esc="data['productName']"></t></a>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td class="o_td_label">-->
+                                    <!--<label class="o_form_label o_readonly_modifier o_required_modifier">Quantity</label>-->
+                                <!--</td>-->
+                                <!--<td style="width: 100%;">-->
+                                    <!--<input class="o_field_float o_field_number o_field_widget o_input"-->
+                                           <!--style="width:50%"-->
+                                           <!--placeholder="" type="number"-->
+                                           <!--name="qty-done"-->
+                                           <!--t-att-value="data['qtyDone']"-->
+                                           <!--t-att-data-qty-done="data['qtyDone']"-->
+                                           <!--t-att-data-reserved-qty="data['reservedQty']"-->
+                                           <!--t-att-data-product-id="data['productID']"/>-->
+                                    <!--<span t-esc="'/ ' + data['reservedQty']"/>-->
+                                    <!--<span t-esc="data['uom']"/>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

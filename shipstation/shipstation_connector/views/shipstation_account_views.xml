@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="shipstation_account_settings_view_form" model="ir.ui.view">
+        <field name="name">shipstation.account.settings.view.form</field>
+        <field name="model">shipstation.account</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <field name="id" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_service_list" type="object"
+                                class="oe_stat_button"
+                                attrs="{'invisible':[('id','=',False)]}"
+                                icon="fa-list">
+                            <field name="number_of_services"/>Services
+                        </button>
+                        <button class="oe_stat_button" attrs="{'invisible': [('active', '=', True)]}"
+                                type="object" name="toggle_active" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                        <button class="oe_stat_button" attrs="{'invisible': [('active', '=', False)]}"
+                                confirm="All stores of this account will be disconnected. Are you sure you want to continue?"
+                                type="object" name="toggle_active" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Name" modifiers="{}"/>
+                        <h1>
+                            <field name="name" placeholder="e.g ShipStation" required="True"/>
+                            <field name="write_date" invisible="1"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page name="api_settings" string="API Settings">
+                            <group>
+                                <group name="credentials">
+                                    <field name="api_key" string="API Key" required="1"/>
+                                    <field name="api_secret" string="API Secret" required="1" password="1"/>
+                                    <field name="tz"/>
+                                    <button name="check_connection" type="object"
+                                        class="btn-secondary"
+                                        string="Test Connection"
+                                        icon="fa-television">
+                                    </button>
+                                </group>
+                            </group>
+                            <div name="shipstation_instruction" class="row">
+                                <div class="col-md-12 pt-2">
+                                    <h2>
+                                        To get API Key and API Secret from ShipStation, please follow the instructions below.
+                                    </h2>
+                                </div>
+                                <div class="col-md-12 pt-3">
+                                    <p>1. Sign in your ShipStation account.</p>
+                                    <p>2. Go to Settings page.</p>
+                                    <p>3. On the left side, select the Account section and click on API Settings.</p>
+                                    <p>4. Copy API Key and API Secret from this page and paste into the corresponding fields above.</p>
+                                    <p>5. Click Test Connection button to make sure your credential was entered correctly.</p>
+                                </div>
+                                <div class="col-md-12 pt-3">
+                                    <em>Please click
+                                        <a href="https://help.shipstation.com/hc/en-us/articles/360025856212-ShipStation-API"
+                                           target="_blank"><u>here</u></a> for more details
+                                    </em>
+                                </div>
+                            </div>
+                        </page>
+                        <page name="store_settings" string="Store Settings" attrs="{'invisible':['|', ('write_date', '=', False), ('active', '=', False)]}">
+                            <span>The list of configured stores on the account
+                                <button name="update_configured_store" type="object"
+                                        class="btn btn-link">
+                                    <i class="fa fa-refresh"/> Update configured stores
+                                </button>
+                            </span>
+                            <group>
+                                <field name="ecommerce_channel_ids" 
+                                context="{'active_test': False}"
+                                string="Stores are managed in Odoo" widget="many2many_checkboxes"/>
+                            </group>
+                        </page>
+                        <page name="order_settings" string="Order Settings" attrs="{'invisible':['|', ('write_date', '=', False), ('active', '=', False)]}">
+                            <group>
+                                <label for="auto_export_order" string="Auto Export Order"/>
+                                <div>
+                                    <field name="auto_export_order"/>
+                                    <p class="text-muted">
+                                        Automatically export order to ShipStation when confirming order
+                                    </p>
+                                    <p class="text-muted">
+                                        Default Order Status: Awaiting Shipment
+                                    </p>
+                                </div>
+                            </group>
+                            <group attrs="{'invisible':[('auto_export_order', '=', False)]}">
+                                <field name="id" invisible="1"/>
+                                <field name="auto_export_rule_ids" 
+                                string="Orders to Export"
+                                context="{'default_account_id':id}"/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="shipstation_account_settings_view_tree" model="ir.ui.view">
+        <field name="name">shipstation.account.settings.view.tree</field>
+        <field name="model">shipstation.account</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Name"/>
+                <field name="display_status" 
+                decoration-success="display_status == 'active'" 
+                decoration-danger="display_status == 'inactive'" widget="badge"/>
+                <field name="write_date" string="Last Updated"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_shipstation_account" model="ir.actions.act_window">
+        <field name="name">ShipStation Accounts</field>
+        <field name="view_mode">tree,form</field>
+        <field name="res_model">shipstation.account</field>
+        <field name="context">{'active_test': False}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('shipstation_connector.shipstation_account_settings_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('shipstation_connector.shipstation_account_settings_view_form')})]"/>
+    </record>
+
+    <record id="view_shipstation_form_services" model="ir.ui.view">
+            <field name="name">shipstation.account.form.services</field>
+            <field name="model">shipstation.account</field>
+            <field name="arch" type="xml">
+                <form create="0">
+                    <sheet>
+                        <div>
+                            <field name="id" invisible="1"/>
+                            <p>The list of shipping services on ShipStation account</p>
+                        </div>
+                        <field name="delivery_carrier_ids"
+                               context="{'active_test': False}"
+                               domain="[('ss_account_id.id','=',id)]"
+                               readonly="1"
+                               nolabel="1" widget="custom_groupby_many2many_checkboxes"/>
+                    </sheet>
+                    <footer>
+                        <button string="Refresh"
+                                name="create_or_update_carrier_and_service"
+                                type="object" class="btn-primary"/>
+                        <button string="Cancel"
+                                class="btn-secondary"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_shipstation_service_lists" model="ir.actions.act_window">
+            <field name="name">ShipStation Services</field>
+            <field name="res_model">shipstation.account</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('shipstation_connector.view_shipstation_form_services')})]"/>
+        </record>
+
+        <!-- Menu in Sales -->
+        <menuitem action="action_shipstation_account" name="ShipStation Accounts"
+                  groups="base.group_system"
+                  id="menu_shipping_account_sale" parent="sale.menu_sales_config" sequence="10"/>
+
+</odoo>

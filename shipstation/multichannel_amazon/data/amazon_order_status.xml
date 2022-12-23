@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo noupdate="1">
+    <record id="amazon_order_status_unshipped" model="order.status.channel">
+        <field name="name">Unshipped</field>
+        <field name="title">Unshipped</field>
+        <field name="platform">amazon</field>
+    </record>
+    <record id="amazon_order_status_partial_shipped" model="order.status.channel">
+        <field name="name">PartiallyShipped</field>
+        <field name="title">Partially Shipped</field>
+        <field name="platform">amazon</field>
+    </record>
+    <record id="amazon_order_status_shipped" model="order.status.channel">
+        <field name="name">Shipped</field>
+        <field name="title">Shipped</field>
+        <field name="platform">amazon</field>
+    </record>
+</odoo>

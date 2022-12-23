@@ -1,0 +1,135 @@
+[
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_ground",
+    "name": "FedEx Ground®",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_home_delivery",
+    "name": "FedEx Home Delivery®",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_2day",
+    "name": "FedEx 2Day®",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_2day_am",
+    "name": "FedEx 2Day® A.M.",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_express_saver",
+    "name": "FedEx Express Saver®",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_standard_overnight",
+    "name": "FedEx Standard Overnight®",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_priority_overnight",
+    "name": "FedEx Priority Overnight®",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_first_overnight",
+    "name": "FedEx First Overnight®",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_1_day_freight",
+    "name": "FedEx 1 Day® Freight",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_2_day_freight",
+    "name": "FedEx 2 Day® Freight",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_3_day_freight",
+    "name": "FedEx 3 Day® Freight",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_first_overnight_freight",
+    "name": "FedEx First Overnight® Freight",
+    "domestic": true,
+    "international": false
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_ground_international",
+    "name": "FedEx Ground® International",
+    "domestic": false,
+    "international": true
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_international_economy",
+    "name": "FedEx International Economy®",
+    "domestic": false,
+    "international": true
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_international_priority",
+    "name": "FedEx International Priority®",
+    "domestic": false,
+    "international": true
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_international_first",
+    "name": "FedEx International First®",
+    "domestic": false,
+    "international": true
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_europe_first",
+    "name": "FedEx Europe First®",
+    "domestic": false,
+    "international": true
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_international_economy_freight",
+    "name": "FedEx International Economy® Freight",
+    "domestic": false,
+    "international": true
+  },
+  {
+    "carrierCode": "fedex",
+    "code": "fedex_international_priority_freight",
+    "name": "FedEx International Priority® Freight",
+    "domestic": false,
+    "international": true
+  }
+]

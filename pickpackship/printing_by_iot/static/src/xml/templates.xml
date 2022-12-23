@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ButtonIoTPrint" owl="1">
+        <div>
+            <button type="button" class="btn btn-primary" t-on-click="onPrint">Print</button>
+            <button type="button" class="btn btn-secondary" t-on-click="onClose">Close</button>
+        </div>
+    </t>
+
+    <div t-name="printing_by_iot.IoTPrintingAction" class="o_iot_printing_action"></div>
+
+    <t t-name="IoTPrintingActionContentContent" owl="1">
+        <div class="o_form_view o_form_nosheet o_form_editable">
+            <div class="o_group">
+                <table class="o_group o_inner_group o_group_col_6">
+                    <tbody>
+                        <t t-if="props.selectedRecords">
+                            <tr>
+                                <td class="o_td_label">
+                                    <label class="o_form_label" for="o_field_selected_record"><t t-esc="props.selectedTitle"/></label>
+                                </td>
+                                <td>
+                                    <select name="selected-record" 
+                                        class="o_input o_field_widget o_required_modifier"
+                                        t-on-change="onChangeSelectedRecord"
+                                        t-model="state.selectedRecordID" id="o_field_selected_record">
+                                        <t t-foreach="props.selectedRecords" t-as="selectedRecord" t-key="selectedRecord.id">
+                                            <option t-att-value="selectedRecord.id"><t t-esc="selectedRecord.name"/></option>
+                                        </t>
+                                    </select>
+                                </td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td class="o_td_label">
+                                <label class="o_form_label" for="o_field_input_copies">Number of copies</label>
+                            </td>
+                            <td>
+                                 <input class="o_field_integer o_field_number 
+                                        o_field_widget o_input o_required_modifier"
+                                        t-att-value="state.copies"
+                                        id="o_field_input_copies" 
+                                        t-model="state.copies"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="o_form_label"
+                                       style="font-weight: bold;"
+                                       for="o_field_printers">Printers</label>
+                            </td>
+                            <td>
+                                <t t-foreach="props.printers" t-as="printer" t-key="printer.id">
+                                    <div class="custom-control custom-radio o_radio_item" aria-atomic="true">
+                                        <input type="radio"
+                                                name="iot-printer"
+                                                t-att-value="printer.id"
+                                                t-attf-id="radio_printer_{{printer.name.replace(' ','_')}}"
+                                                t-ref="default_device_{{printer.id == state.selectedIoTDeviceID ? 'valid' : 'invalid'}}"
+                                                t-model="state.selectedIoTDeviceID"
+                                                class="custom-control-input o_radio_input"/>
+                                        <label class="custom-control-label o_form_label"
+                                                t-attf-for="radio_printer_{{printer.name.replace(' ','_')}}">
+                                            <t t-esc="printer.name"/>
+                                        </label>
+                                    </div>
+                                </t>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <IoTPrintingActionButtons/>
+        </div>
+    </t>
+</templates>
